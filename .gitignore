@@ -1,3 +1,8 @@
+# File System
+.DS_Store
+/img/
+/data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
