@@ -20,7 +20,7 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 from tqdm import tqdm
 
-from common import INRIX_DTYPE, INRIX_TIME_REF, XD_SEQUENCE
+from i24_vsl.data.utils import INRIX_DTYPE, INRIX_TIME_REF, XD_SEQUENCE
 
 
 # Matplotlib rc Configurations
