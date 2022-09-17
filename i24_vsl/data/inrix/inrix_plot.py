@@ -20,7 +20,7 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 from tqdm import tqdm
 
-from i24_vsl.data.utils import INRIX_DTYPE, INRIX_TIME_REF, XD_SEQUENCE
+from .utils import INRIX_DTYPE, XD_SEQUENCE
 
 
 # Matplotlib rc Configurations
@@ -60,7 +60,7 @@ def plot(**kwargs) -> None:
                                 encoding='utf-8', dtype=INRIX_DTYPE)
     df['measurement_tstamp'] = pd.to_datetime(df['measurement_tstamp'])
     df['date'] = df['measurement_tstamp'].dt.date
-    ref_time_delta = df['measurement_tstamp'] - datetime(**INRIX_TIME_REF)
+    ref_time_delta = df['measurement_tstamp'] - df['measurement_tstamp'].min()
     df['seconds_in_day'] = ref_time_delta.dt.seconds
 
     for date, g in tqdm(df.groupby(by='date'),

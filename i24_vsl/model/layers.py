@@ -38,18 +38,15 @@ class Activation(nn.Module):
         super().__init__()
 
         if isinstance(activation, Callable):
-            self.activation = activation
-            self.activation_kwargs = kwargs
+            self.activation = activation(**kwargs)
         elif isinstance(activation, str):
             if activation.lower() in self._act_lut:
-                self.activation = self._act_lut[activation.lower()]
-                self.activation_kwargs = kwargs
+                self.activation = self._act_lut[activation.lower()](**kwargs)
             else:
                 warnings.warn(
                     f"{activation:s} is not supported, fall back to ReLU."
                 )
-                self.activation = nn.ReLU
-                self.activation_kwargs = {}
+                self.activation = nn.ReLU()
         else:
             raise TypeError(
                 "Expect activation to be 'str' or 'Callable', "
@@ -59,7 +56,7 @@ class Activation(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         x = x.float()
 
-        return self.activation(x, **self.activation_kwargs)
+        return self.activation(x)
 
 
 class StaticEvol(nn.Module):
@@ -133,11 +130,11 @@ class StaticEvol(nn.Module):
         self.register_module("residual_linear", None)
         self.residual = residual
         if residual and loc_feature + time_feature != self.n_hidden[-1]:
-            self.residual = nn.Sequential(
+            self.residual_linear = nn.Sequential(
                 OrderedDict([
                     ("res_linear", nn.Linear(
                         loc_feature + time_feature, self.n_hidden[-1]
-                    ))
+                    )),
                     ("res_layernorm", nn.LayerNorm(self.n_hidden[-1]))
                 ])
             )
@@ -156,7 +153,7 @@ class StaticEvol(nn.Module):
         time = time.float()
 
         loc = self.loc_embedding(loc)
-        feat = th.cat([loc, time], dim=-1)
+        feat = th.cat([loc.squeeze(1), time], dim=-1)
         x = self.mlp(feat)
         if self.residual:
             if self.residual_linear is not None:
@@ -212,7 +209,7 @@ class TemporalBlock(nn.Module):
         )
         self.sigmoid_gate = nn.Sequential(
             OrderedDict([
-                ("linear", nn.Conv1d(res_channels, res_channels)),
+                ("linear", nn.Conv1d(res_channels, res_channels, 1)),
                 ("sigmoid_gate", nn.Sigmoid())
             ])
         )
@@ -224,7 +221,7 @@ class TemporalBlock(nn.Module):
         out: Tensor = self.dilated_conv(x)
         gated = self.tanh_gate(out) * self.sigmoid_gate(out)
         out = self.conv_res(gated)
-        out += x[:, :, -out.shape[-1]]
+        out += x[:, :, -out.shape[2]:]
 
         # Skip connection.
         skip = self.conv_skip(gated)
@@ -297,12 +294,12 @@ class DynEvol(nn.Module):
         self.out_layer = nn.Sequential(
             OrderedDict([
                 ("activation_1", Activation(self.activation,
-                                            **self.activation_kwargs))
-                ("conv_1", nn.Conv1d(self.in_channels, self.in_channels, 1))
+                                            **self.activation_kwargs)),
+                ("conv_1", nn.Conv1d(self.in_channels, self.in_channels, 1)),
                 ("activation_2", Activation(self.activation,
-                                            **self.activation_kwargs))
-                ("flatten", nn.Flatten(start_dim=1, end_dim=-1))
-                ("linear_2", nn.Linear(out_features, 1))
+                                            **self.activation_kwargs)),
+                ("flatten", nn.Flatten(start_dim=1, end_dim=-1)),
+                ("linear_2", nn.Linear(self.in_channels * out_features, 1))
             ])
         )
 
@@ -331,7 +328,7 @@ class DynEvol(nn.Module):
                 res_out, self._get_out_features()
             )
             skip.append(skip_out)
-        out = th.sum(skip_out, dim=0)
+        out = th.stack(skip).sum(dim=0)
         out = self.out_layer(out)
 
         return out

@@ -14,27 +14,23 @@ import numpy as np
 import pandas as pd
 import torch as th
 from numpy import ndarray
-from pandas import DataFrame
 from pandas.tseries.holiday import USFederalHolidayCalendar
-from torch_geometric.data import Data, Dataset
+from torch import Tensor
+from torch.utils.data import Dataset
+from torch_geometric.data import Data
 
-from i24_vsl.data.utils import INRIX_DTYPE, INRIX_FILENAME, XD_SEQUENCE
+from .utils import INRIX_DTYPE, INRIX_FILENAME, XD_SEQUENCE
 
 # Type alias
 # =========================================
 _PathLike = Union[str, "os.PathLike[str]"]
 
 
-# Graph-based INRIX Data
+# TODO(Juanwu) Graph-based INRIX Data
 # =========================================
 class _InrixData(Data):
-    def __inc__(self, key: str, value: Any, *args, **kwargs) -> Any:
-        return super().__inc__(key, value, *args, **kwargs)
-    
-    def __cat_dim__(self, key: str, value: Any, *args, **kwargs) -> Any:
-        if key in [
-            "x", "time", "loc", "hol", "y", "b_swf", "b_tt", "f_swf", "f_tt"
-        ]:
+    def __cat_dim__(self, key, value, *args, **kwargs):
+        if key == "x":
             return None
         else:
             return super().__cat_dim__(key, value, *args, **kwargs)
@@ -56,11 +52,20 @@ class InrixDataset(Dataset):
                  tau: int = 5,
                  delta: int = 1) -> None:
         """Inits InrixDataset with data filepath and attributes."""
+        super().__init__()
+
+        self.root = root
         self.sigma = sigma
         self.tau = tau
         self.delta = delta
-
-        super().__init__(root, None, None)
+        if len(self.processed_paths) != 0 and all(
+            [osp.exists(f) for f in self.processed_paths]
+        ):
+            pass
+        else:
+            osp.makedirs(self.processed_dir)
+            print("Processing...")
+            self.process()
 
         # Load processed data
         self._file_list: List[Tuple[int, int]] = [] 
@@ -81,6 +86,24 @@ class InrixDataset(Dataset):
         for name in self.raw_file_names:
             proc_filename.append(name.split(".")[0] + ".src")
         return proc_filename
+
+    @property
+    def raw_dir(self) -> str:
+        return osp.join(self.root, "raw")
+    
+    @property
+    def raw_paths(self) -> List[str]:
+        return [osp.join(self.raw_dir, f) for f in self.raw_file_names]
+    
+    @property
+    def processed_dir(self) -> str:
+        return osp.join(self.root, "processed")
+    
+    @property
+    def processed_paths(self) -> List[str]:
+        return [
+            osp.join(self.processed_dir, f) for f in self.processed_file_names
+        ]
     
     def download(self) -> None:
         raise RuntimeError("Raw INRIX data not found!")
@@ -131,10 +154,10 @@ class InrixDataset(Dataset):
         ) as file:
             pickle.dump(data_dict, file, protocol=3) 
 
-    def len(self) -> int:
+    def __len__(self) -> int:
         return len(self._file_list)
     
-    def get(self, idx: int) -> _InrixData:
+    def __getitem__(self, idx: int) -> Any:
         _file_idx, _dat_idx = self._file_list[idx]
         with open(self.processed_paths[_file_idx], mode="rb") as file:
             data: Dict[str, ndarray] = pickle.load(file)
@@ -166,8 +189,12 @@ class InrixDataset(Dataset):
         x[0, -len(speed):] = speed
         x[1, -len(t_time):] = t_time
         x[2, -len(speed):] = 1.0
+        # TODO (Juanwu): Fix edge conditions
         y = data["speed"][(data["block_no"] == block) &
+                          (data["days"] == day) &
                           (data["minutes"] == minute + self.delta)]
+        if len(y) == 0:
+            y = np.zeros([1, ], dtype="float32")
 
         # Construct shockwave model features 
         b_swf = np.zeros(shape=[self.sigma, self.tau], dtype="float32")
@@ -196,22 +223,11 @@ class InrixDataset(Dataset):
             f_swf[:speed.shape[0], :speed.shape[1]] = speed
             f_tt[:t_time.shape[0]] = t_time
 
-        return _InrixData(
-            x=th.from_numpy(x).float(),
-            time=th.tensor([minute]).float(),
-            loc=th.tensor([block]).float(),
-            hol=th.tensor([holiday]).float(),
-            y=th.from_numpy(y).float(),
-
-            b_swf=th.from_numpy(b_swf).float(),
-            b_tt=th.from_numpy(b_tt).float(),
-            f_swf=th.from_numpy(f_swf).float(),
-            f_tt=th.from_numpy(f_tt).float(),
-
-            # TODO (Juanwu): Edge features
-            edge_index=None,
-            edge_attr=None
-        )
+        return (th.from_numpy(x).float(),
+                th.tensor([minute]).float(),
+                th.tensor([block]).float(),
+                th.tensor([holiday]).float(),
+                th.from_numpy(y).float())
 
 
 if __name__ == "__main__":
