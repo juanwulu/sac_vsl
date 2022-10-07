@@ -13,11 +13,11 @@
     <e1Detector id="upstream_1" lane="upstream_1" pos="100.00" period="300.00" file="../data/induction_loop.xml"/>
     <e1Detector id="upstream_2" lane="upstream_2" pos="100.00" period="300.00" file="../data/induction_loop.xml"/>
     <e1Detector id="upstream_3" lane="upstream_3" pos="100.00" period="300.00" file="../data/induction_loop.xml"/>
-    <e1Detector id="weaving_downstream_0" lane="weaving_0" pos="435.95" period="300.00" file="../data/induction_loop.xml"/>
-    <e1Detector id="weaving_downstream_1" lane="weaving_1" pos="435.94" period="300.00" file="../data/induction_loop.xml"/>
-    <e1Detector id="weaving_downstream_2" lane="weaving_2" pos="436.10" period="300.00" file="../data/induction_loop.xml"/>
-    <e1Detector id="weaving_downstream_3" lane="weaving_3" pos="435.74" period="300.00" file="../data/induction_loop.xml"/>
-    <e1Detector id="weaving_downstream_4" lane="weaving_4" pos="435.73" period="300.00" file="../data/induction_loop.xml"/>
+    <e1Detector id="weaving_downstream_0" lane="weaving_0" pos="500.00" period="300.00" file="../data/induction_loop.xml"/>
+    <e1Detector id="weaving_downstream_1" lane="weaving_1" pos="500.00" period="300.00" file="../data/induction_loop.xml"/>
+    <e1Detector id="weaving_downstream_2" lane="weaving_2" pos="500.00" period="300.00" file="../data/induction_loop.xml"/>
+    <e1Detector id="weaving_downstream_3" lane="weaving_3" pos="500.00" period="300.00" file="../data/induction_loop.xml"/>
+    <e1Detector id="weaving_downstream_4" lane="weaving_4" pos="500.00" period="300.00" file="../data/induction_loop.xml"/>
     <e1Detector id="weaving_midway_0" lane="weaving_0" pos="300.00" period="300.00" file="../data/induction_loop.xml"/>
     <e1Detector id="weaving_midway_1" lane="weaving_1" pos="300.00" period="300.00" file="../data/induction_loop.xml"/>
     <e1Detector id="weaving_midway_2" lane="weaving_2" pos="300.00" period="300.00" file="../data/induction_loop.xml"/>
