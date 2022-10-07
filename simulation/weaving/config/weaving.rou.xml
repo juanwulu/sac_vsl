@@ -1,0 +1,15 @@
+<routes>
+    <!--Define vehicle types-->
+    <vType id="SP" vClass="passenger" carFollowModel="IDM" delta="4.0" tau="1.24" accel="1.3" decel="2.0" minGap="2.0" speedFactor="normc(1.0, 0.1, 0.2, 2)" lcOvertakeDeltaSpeedFactor="1.0" />
+
+    <!--Define routes-->
+    <route id="through" edges="load upstream weaving downstream"/>
+    <route id="on_through" edges="on_ramp weaving downstream"/>
+    <route id="through_off" edges="load upstream weaving off_ramp"/>
+
+    <!--Define flows-->
+    <flow begin="0" end="3600" departPos="base" departSpeed="max" departLane="random" id="through" route="through" type="SP" vehsPerHour="8650"/>
+    <flow begin="0" end="3600" departPos="base" departSpeed="max" departLane="random" id="exit" route="through_off" type="SP" vehsPerHour="1050"/>
+    <flow begin="100" end="3700" departPos="base" departSpeed="11.11" departLane="random" id="entry" route="on_through" type="SP" vehsPerHour="1450"/>
+
+</routes>
