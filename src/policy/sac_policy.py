@@ -3,7 +3,6 @@
 # @author Juanwu Lu
 # @date   Nov-11-22
 # =============================================================================
-"""Soft Actor-Critic policy function module declaration"""
 from __future__ import annotations
 
 import math

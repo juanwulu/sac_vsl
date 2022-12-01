@@ -1,0 +1,14 @@
+<routes>
+    <!--Define Vehicle Types-->
+    <vType id="car" vClass="passenger" carFollowModel="IDM" delta="4.0" tau="1.24" accel="1.3" decel="2.0" minGap="4.0" speedFactor="normc(1.0, 0.1, 0.2, 2)" lcOvertakeDeltaSpeedFactor="1.0" />
+
+    <!--Define Routes-->
+    <route id="through" edges="load upstream weaving weaving_ext connector downstream"/>
+    <route id="on_through" edges="powell_ext powell weaving weaving_ext connector downstream"/>
+    <route id="through_off" edges="load upstream weaving weaving_ext ashby"/>
+
+    <!--Define Flows-->
+    <flow begin="0" end="3600" departPos="base" departSpeed="max" departLane="random" id="through_0" route="through" type="car" vehsPerHour="8650"/>
+    <flow begin="0" end="3600" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_0" route="on_through" type="car" vehsPerHour="4125"/>
+
+</routes>
