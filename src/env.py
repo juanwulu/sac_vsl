@@ -1,5 +1,5 @@
 # =============================================================================
-# @file   cvi80.py
+# @file   env.py
 # @author Juanwu Lu
 # @date   Dec-2-22
 # =============================================================================
@@ -11,7 +11,7 @@ import sys
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
-from gymnasium.core import ActType, Env, ObsType
+from gymnasium.core import ActType, ActionWrapper, Env, ObsType
 from gymnasium.spaces import Box
 
 # SUMO Traci
@@ -22,7 +22,7 @@ if 'SUMO_HOME' in os.environ:
 else:
     sys.exit('Please declare envrionment variable "SUMO_HOME".')
 
-ASSET_DIR = os.path.join(os.path.dirname(__file__), 'assets', 'I80')
+ASSET_DIR = os.path.join(os.path.dirname(__file__), 'assets')
 
 
 class CVI80Env(Env):
@@ -44,6 +44,9 @@ class CVI80Env(Env):
         the second dimension is a timestep encoding.
 
     - Rewards
+
+        The reward is the negative sum of mainline vehicle speed variation
+        and mean time loss of all the vehicles at current time step.
 
     - Starting State
 
@@ -68,24 +71,29 @@ class CVI80Env(Env):
         self.exp_name = exp_name
         self.step_interval: float = step_interval
         self.sumo_binary: str = 'sumo-gui' if gui else 'sumo'
-        self.sumo_cfg = os.path.join(ASSET_DIR, 'i80.sumo.cfg')
+        self.sumo_cfg = os.path.join(ASSET_DIR, 'I80', 'i80.sumo.cfg')
         # TODO: route file corresponding to different pr
         assert penetration_rate in [0.0, 0.02, 0.05, 0.10], ValueError(
             'Expect CV penetration rate to be 0%, 2%, 5%, or 10%, '
             f'but got {penetration_rate * 100}%.'
         )
         if penetration_rate == 0.0:
-            self.route_file = os.path.join(ASSET_DIR, 'i80_pr_0.rou.xml')
+            self.route_file = os.path.join(
+                ASSET_DIR, 'I80', 'i80_pr_0.rou.xml')
         if penetration_rate == 0.02:
-            self.route_file = os.path.join(ASSET_DIR, 'i80_pr_2.rou.xml')
+            self.route_file = os.path.join(
+                ASSET_DIR, 'I80', 'i80_pr_2.rou.xml')
         if penetration_rate == 0.05:
-            self.route_file = os.path.join(ASSET_DIR, 'i80_pr_5.rou.xml')
+            self.route_file = os.path.join(
+                ASSET_DIR, 'I80', 'i80_pr_5.rou.xml')
         if penetration_rate == 0.10:
-            self.route_file = os.path.join(ASSET_DIR, 'i80_pr_10.rou.xml')
+            self.route_file = os.path.join(
+                ASSET_DIR, 'I80', 'i80_pr_10.rou.xml')
 
         # Observation parameters
         self.raster_length = raster_length
-        self._net = sumolib.net.readNet(os.path.join(ASSET_DIR, 'i80.net.xml'))
+        self._net = sumolib.net.readNet(
+            os.path.join(ASSET_DIR, 'I80', 'i80.net.xml'))
         self._obs_edges = [
             # Mainline edges
             'i80_load_n',
@@ -187,7 +195,7 @@ class CVI80Env(Env):
         self.take_action(action)
         curr_time = traci.simulation.getTime()
         obs, t_feat = [], []
-        reward: float = 0.0
+        reward = []
         for time in range(math.floor(self.step_interval)):
             while traci.simulation.getTime() < curr_time + 1.0:
                 traci.simulationStep()
@@ -195,12 +203,13 @@ class CVI80Env(Env):
             curr_obs = self.get_observation()
             obs.append(curr_obs)
             t_feat.append(np.ones_like(curr_obs) * time)
-            reward += self.get_reward()
+            reward.append(self.get_reward())
             curr_time += 1.0
 
         obs = np.concatenate(obs, axis=0)
         t_feat = np.concatenate(t_feat, axis=0)
         obs = np.stack([obs, t_feat])
+        reward = np.mean(reward)  # Return the maximum reward in the interval
         terminated = traci.simulation.getTime() >= 3900
 
         if terminated:
@@ -247,7 +256,10 @@ class CVI80Env(Env):
                             row_obs[0, rear_grid + 1] = \
                                 (v_pos + veh_len / 2 - ref) / veh_len
 
-                obs[idx, _left:_right] = row_obs
+                if 'ramp' in edge_id:
+                    obs[-1, _left:_right] = row_obs
+                else:
+                    obs[idx, _left:_right] = row_obs
 
         return obs
 
@@ -307,3 +319,16 @@ if __name__ == '__main__':
         next_obs, rew, done, _, _ = env.step(env.action_space.sample())
         obs = next_obs
     env.close()
+
+
+class MinMaxActionWrapper(ActionWrapper):
+    """Wrapper for environment action, projected from [-1, 1] to [Min, Max]."""
+
+    def action(self, action: ActType):
+        if isinstance(self.env.action_space, Box):
+            low, high = self.env.action_space.low, self.env.action_space.high
+            return low + (high - low) * action
+        else:
+            raise TypeError(
+                f'Unsupported action space: {type(self.env.action_space)}'
+            )
