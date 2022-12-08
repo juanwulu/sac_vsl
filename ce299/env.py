@@ -8,11 +8,17 @@ from __future__ import annotations
 import math
 import os
 import sys
+import time
+from copy import deepcopy
 from typing import Any, Dict, List, Optional, Tuple
+from xml.etree import ElementTree as ET
 
 import numpy as np
-from gymnasium.core import ActType, ActionWrapper, Env, ObsType
-from gymnasium.spaces import Box
+from gym.core import ActType, Env, ObsType
+from gym.spaces import Box, Discrete
+from ray.rllib.env.env_context import EnvContext
+
+from ce299.typing import PathLike
 
 # SUMO Traci
 if 'SUMO_HOME' in os.environ:
@@ -25,7 +31,7 @@ else:
 ASSET_DIR = os.path.join(os.path.dirname(__file__), 'assets')
 
 
-class CVI80Env(Env):
+class CVI80VSLEnv(Env):
     """I80 Emeryville connected vehicle variable speed limit environment.
 
     This environment is associated with the variable speed limit control
@@ -60,43 +66,26 @@ class CVI80Env(Env):
     """
     metadata: Dict[str, Any] = {'render_modes': ['human']}
 
-    def __init__(self,
-                 penetration_rate: float = 0.0,
-                 exp_name: str = 'default',
-                 raster_length: float = 20.0,
-                 gui: bool = False,
-                 step_interval: float = 5.0) -> None:
+    def __init__(self, config: EnvContext) -> None:
         super().__init__()
 
-        self.exp_name = exp_name
-        self.step_interval: float = step_interval
-        self.sumo_binary: str = 'sumo-gui' if gui else 'sumo'
-        self.sumo_cfg = os.path.join(ASSET_DIR, 'I80', 'i80.sumo.cfg')
-        # TODO: route file corresponding to different pr
-        assert penetration_rate in [0.0, 0.02, 0.05, 0.10], ValueError(
-            'Expect CV penetration rate to be 0%, 2%, 5%, or 10%, '
-            f'but got {penetration_rate * 100}%.'
+        self.penetration_rate = config.get('penetration_rate', 0.0)
+        assert 0.0 <= self.penetration_rate <= 1.0, ValueError(
+            'Expect penetration rate to be between 0 and 1, ',
+            f'but got {self.penetration_rate}.'
         )
-        if penetration_rate == 0.0:
-            self.route_file = os.path.join(
-                ASSET_DIR, 'I80', 'i80_pr_0.rou.xml')
-        if penetration_rate == 0.02:
-            self.route_file = os.path.join(
-                ASSET_DIR, 'I80', 'i80_pr_2.rou.xml')
-        if penetration_rate == 0.05:
-            self.route_file = os.path.join(
-                ASSET_DIR, 'I80', 'i80_pr_5.rou.xml')
-        if penetration_rate == 0.10:
-            self.route_file = os.path.join(
-                ASSET_DIR, 'I80', 'i80_pr_10.rou.xml')
+        self.exp_name = config.get('exp_name', 'default')
+        self.raster_length = config.get('raster_length', 20.0)
+        self.step_interval: float = config.get('step_interval', 6.0)
+        self.sumo_binary = 'sumo-gui' if config.get('gui', False) else 'sumo'
+        self.sumo_cfg = os.path.join(ASSET_DIR, 'I80', 'i80.sumo.cfg')
+        self.route_file = self.set_route()
 
         # Observation parameters
-        self.raster_length = raster_length
         self._net = sumolib.net.readNet(
             os.path.join(ASSET_DIR, 'I80', 'i80.net.xml'))
         self._obs_edges = [
             # Mainline edges
-            'i80_load_n',
             'i80_upstream_n',
             'i80_weaving_n',
             'i80_weaving_ext_n',
@@ -133,17 +122,28 @@ class CVI80Env(Env):
         ) + 1
         self.observation_space = Box(
             low=0.0, high=float('inf'),
-            shape=(2, self.obs_height, self.obs_width)
+            shape=(
+                int(self.obs_height * self.step_interval), self.obs_width, 2
+            )
         )
 
         # Action and Reward parameters
-        self.action_space = Box(low=15.64, high=29.06, shape=(1, ))
+        if config.get('discrete', True):
+            self.action_list = [
+                15.64, 17.88, 20.12, 22.35, 24.59, 26.82, 29.06
+            ]
+            self.action_space = Discrete(n=len(self.action_list))
+        else:
+            self.action_list = None
+            self.action_space = Box(low=15.64, high=29.06, shape=(1, ))
+
+    def close(self) -> None:
+        traci.close(False)
 
     def reset(self,
               *,
               seed: Optional[int] = None,
-              options: Optional[Dict] = None) -> Tuple[ObsType, Dict]:
-        # TODO: Reset the sumo simulation environment
+              options: Optional[Dict] = None) -> ObsType:
         super().reset(seed=seed, options=options)
 
         if seed is not None:
@@ -164,62 +164,62 @@ class CVI80Env(Env):
                 '--quit-on-end'
             ]
 
-        traci.start(sumo_cmd, label=self.exp_name)
-        self.scenario = traci.getConnection(self.exp_name)
+        traci.start(sumo_cmd, label='sim_' + str(time.time()))
         self.warm_up()
 
         curr_time = traci.simulation.getTime()
         obs, t_feat = [], []
-        for time in range(math.floor(self.step_interval)):
+        for time_step in range(math.floor(self.step_interval)):
             while traci.simulation.getTime() < curr_time + 1.0:
                 traci.simulationStep()
 
             curr_obs = self.get_observation()
             obs.append(curr_obs)
-            t_feat.append(np.ones_like(curr_obs) * time)
+            t_feat.append(np.ones_like(curr_obs) * time_step)
             curr_time += 1.0
 
         obs = np.concatenate(obs, axis=0)
         t_feat = np.concatenate(t_feat, axis=0)
-        obs = np.stack([obs, t_feat])
+        obs = np.stack([obs, t_feat]).transpose(1, 2, 0)
 
-        return obs, {}
+        return obs
 
-    def step(self, action: ActType) -> Tuple[ObsType, float, bool, bool, Dict]:
+    def step(self, action: ActType) -> Tuple[ObsType, float, bool, Dict]:
         """Take action to apply speed limit to all the connected vehicles."""
-        assert action.shape == self.action_space.shape, ValueError(
-            f'Incosistent action shape, expect {self.action_space.shape}, '
-            f'but got {action.shape}.'
-        )
+        if self.action_list is None:
+            assert action.shape == self.action_space.shape, ValueError(
+                f'Incosistent action shape, expect {self.action_space.shape}, '
+                f'but got {action.shape}.'
+            )
+            # NOTE: Continuous VSL
+            self.set_vsl(action)
+        else:
+            _action = self.action_list[action]
+            self.set_vsl(_action)
 
-        self.take_action(action)
         curr_time = traci.simulation.getTime()
         obs, t_feat = [], []
         reward = []
-        for time in range(math.floor(self.step_interval)):
+        for time_step in range(math.floor(self.step_interval)):
             while traci.simulation.getTime() < curr_time + 1.0:
                 traci.simulationStep()
 
             curr_obs = self.get_observation()
             obs.append(curr_obs)
-            t_feat.append(np.ones_like(curr_obs) * time)
+            t_feat.append(np.ones_like(curr_obs) * time_step)
             reward.append(self.get_reward())
             curr_time += 1.0
 
         obs = np.concatenate(obs, axis=0)
         t_feat = np.concatenate(t_feat, axis=0)
-        obs = np.stack([obs, t_feat])
+        obs = np.stack([obs, t_feat]).transpose(1, 2, 0)
         reward = np.mean(reward)  # Return the maximum reward in the interval
-        terminated = traci.simulation.getTime() >= 3900
+        done = traci.simulation.getTime() >= 3900
 
-        if terminated:
+        if done:
             self.close()
 
-        return obs, reward, terminated, False, {}
-
-    def close(self):
-        """Close connection to current sumo environment."""
-        traci.close()
+        return obs, reward, done, {}
 
     def get_observation(self) -> np.ndarray:
         obs = np.zeros([self.obs_height, self.obs_width], 'float32')
@@ -276,7 +276,30 @@ class CVI80Env(Env):
 
         return 0.6 * var_reward + 0.4 * wt_reward
 
-    def take_action(self, action: ActType) -> None:
+    def set_route(self) -> PathLike:
+        if not os.path.isdir(os.path.join(ASSET_DIR, 'tmp')):
+            os.makedirs(os.path.join(ASSET_DIR, 'tmp'))
+
+        my_tree = ET.parse(os.path.join(ASSET_DIR, 'I80', 'i80.rou.xml'))
+        if self.penetration_rate > 0.0:
+            my_root = my_tree.getroot()
+            my_flow = my_root.findall('flow[@route="through"]')
+            for flow in my_flow:
+                flow_id = flow.get('id')
+                vehs_per_hour = float(flow.get('vehsPerHour'))
+                new_cv_vph = self.penetration_rate * vehs_per_hour
+                new_vph = (1 - self.penetration_rate) * vehs_per_hour
+                cv_flow: ET.Element = deepcopy(flow)
+                flow.set('vehsPerHour', str(new_vph))
+                cv_flow.set('vehsPerHour', str(new_cv_vph))
+                cv_flow.set('id', flow_id + '_cv')
+                cv_flow.set('type', 'cv_car')
+                my_root.append(cv_flow)
+        my_tree.write(os.path.join(ASSET_DIR, 'I80/tmp', 'i80.rou.xml'))
+
+        return os.path.join(ASSET_DIR, 'I80/tmp', 'i80.rou.xml')
+
+    def set_vsl(self, action: ActType) -> None:
         for vehicle in self.vehicles:
             if 'cv' in vehicle:
                 traci.vehicle.setMaxSpeed(vehicle, action[0])
@@ -312,23 +335,10 @@ class CVI80Env(Env):
 
 
 if __name__ == '__main__':
-    env = CVI80Env(penetration_rate=0.1, gui=True)
+    env = CVI80VSLEnv(penetration_rate=0.1, gui=True)
     obs, _ = env.reset(seed=42)
     done = False
     while not done:
         next_obs, rew, done, _, _ = env.step(env.action_space.sample())
         obs = next_obs
     env.close()
-
-
-class MinMaxActionWrapper(ActionWrapper):
-    """Wrapper for environment action, projected from [-1, 1] to [Min, Max]."""
-
-    def action(self, action: ActType):
-        if isinstance(self.env.action_space, Box):
-            low, high = self.env.action_space.low, self.env.action_space.high
-            return low + (high - low) * action
-        else:
-            raise TypeError(
-                f'Unsupported action space: {type(self.env.action_space)}'
-            )

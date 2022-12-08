@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-12-07 14:38:20 by Eclipse SUMO netedit Version 1.15.0
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <!-- Detectors -->
+    <inductionLoop id="e1_0" lane="powell_on_ramp_0" pos="98.42" period="300.00" file="output/on_ramp.xml"/>
+    <inductionLoop id="e1_4" lane="i80_upstream_n_2" pos="241.71" period="300.00" file="output/upstream.xml"/>
+    <inductionLoop id="e1_5" lane="i80_upstream_n_1" pos="241.71" period="300.00" file="output/upstream.xml"/>
+    <inductionLoop id="e1_6" lane="i80_upstream_n_0" pos="241.71" period="300.00" file="output/upstream.xml"/>
+    <inductionLoop id="main_lane_6" lane="i80_weaving_n_0" pos="50.00" period="300.00" file="output/inducation_loop.xml"/>
+    <inductionLoop id="mainline_inflow_6" lane="i80_load_n_0" pos="135.00" period="300.00" file="output/inflow.xml"/>
+    <inductionLoop id="mainline_inflow_e1_1" lane="i80_load_n_5" pos="135.00" period="300.00" file="output/mainline_inflow.xml"/>
+    <inductionLoop id="mainline_inflow_e1_2" lane="i80_load_n_4" pos="135.00" period="300.00" file="output/mainline_inflow.xml"/>
+    <inductionLoop id="mainline_inflow_e1_3" lane="i80_load_n_3" pos="135.00" period="300.00" file="output/mainline_inflow.xml"/>
+    <inductionLoop id="mainline_inflow_e1_4" lane="i80_load_n_2" pos="135.00" period="300.00" file="output/mainline_inflow.xml"/>
+    <inductionLoop id="mainline_inflow_e1_5" lane="i80_load_n_1" pos="135.00" period="300.00" file="output/mainline_inflow.xml"/>
+    <inductionLoop id="mainline_outflow_e1_1" lane="i80_downstream_n_4" pos="200.00" period="300.00" file="output/outflow.xml"/>
+    <inductionLoop id="mainline_outflow_e1_2" lane="i80_downstream_n_3" pos="200.00" period="300.00" file="output/outflow.xml"/>
+    <inductionLoop id="mainline_outflow_e1_3" lane="i80_downstream_n_2" pos="200.00" period="300.00" file="output/outflow.xml"/>
+    <inductionLoop id="mainline_outflow_e1_4" lane="i80_downstream_n_1" pos="200.00" period="300.00" file="output/outflow.xml"/>
+    <inductionLoop id="mainline_outflow_e1_5" lane="i80_downstream_n_0" pos="200.00" period="300.00" file="e1_12.xml"/>
+    <inductionLoop id="off_ramp_e1_0" lane="ashby_off_ramp_0" pos="15.00" period="300.00" file="output/off_ramp.xml"/>
+    <inductionLoop id="upstream_e1_1" lane="i80_upstream_n_5" pos="241.71" period="300.00" file="output/upstream.xml"/>
+    <inductionLoop id="upstream_e1_2" lane="i80_upstream_n_4" pos="241.71" period="300.00" file="output/upstream.xml"/>
+    <inductionLoop id="upstream_e1_3" lane="i80_upstream_n_3" pos="241.71" period="300.00" file="output/upstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_1" lane="i80_weaving_ext_n_5" pos="55.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_2" lane="i80_weaving_ext_n_4" pos="55.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_3" lane="i80_weaving_ext_n_3" pos="55.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_4" lane="i80_weaving_ext_n_2" pos="55.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_5" lane="i80_weaving_ext_n_1" pos="55.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_6" lane="i80_weaving_ext_n_0" pos="55.00" period="300.00" file="e1_23.xml"/>
+    <inductionLoop id="weaving_upstream_e1_1" lane="i80_weaving_n_5" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
+    <inductionLoop id="weaving_upstream_e1_2" lane="i80_weaving_n_4" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
+    <inductionLoop id="weaving_upstream_e1_3" lane="i80_weaving_n_3" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
+    <inductionLoop id="weaving_upstream_e1_4" lane="i80_weaving_n_2" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
+    <inductionLoop id="weaving_upstream_e1_5" lane="i80_weaving_n_1" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
+</additional>

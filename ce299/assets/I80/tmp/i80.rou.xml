@@ -1,0 +1,16 @@
+<routes>
+    
+    <vType id="car" vClass="passenger" carFollowModel="IDM" tau="1.24" accel="1.3" decel="2.0" minGap="2.0" speedFactor="normc(1.0, 0.1, 0.2, 2)" lcOvertakeDeltaSpeedFactor="0.5" lcKeepRight="0.0" color="255,255,255" />
+    <vType id="cv_car" vClass="passenger" carFollowModel="IDM" tau="1.24" accel="1.3" decel="2.0" minGap="2.0" speedFactor="normc(1.0, 0.1, 0.2, 2)" lcOvertakeDeltaSpeedFactor="0.5" lcKeepRight="0.0" color="255,88,93" />
+
+    
+    <route id="through" edges="i80_load_n i80_upstream_n i80_weaving_n i80_weaving_ext_n i80_shrink_n i80_downstream_n" />
+    <route id="on_through" edges="powell_exit powell_acc powell_on_ramp i80_weaving_n i80_weaving_ext_n i80_shrink_n i80_downstream_n" />
+    <route id="through_off" edges="i80_load_n i80_upstream_n i80_weaving_n i80_weaving_ext_n ashby_off_ramp" />
+
+    
+    <flow begin="0" end="3600" departPos="base" departSpeed="max" departLane="random" id="through_0" route="through" type="car" vehsPerHour="7380" />
+    <flow begin="0" end="3600" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_0" route="on_through" type="car" vehsPerHour="1174" />
+    <flow begin="0" end="3600" departPos="base" departSpeed="max" departLane="random" id="ashby_off_0" route="through_off" type="car" vehsPerHour="921" />
+
+</routes>

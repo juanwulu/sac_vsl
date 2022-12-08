@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-12-08 14:30:45 by Eclipse SUMO sumo Version 1.15.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/ce299/assets/I80/i80.net.xml"/>
+        <route-files value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/ce299/assets/I80/tmp/i80.rou.xml"/>
+        <additional-files value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/ce299/assets/I80/i80.add.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <lanechange.duration value="1.5"/>
+    </processing>
+
+    <report>
+        <verbose value="false"/>
+        <no-warnings value="true"/>
+        <duration-log.disable value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="55654"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="23423"/>
+    </random_number>
+
+    <gui_only>
+        <quit-on-end value="true"/>
+        <start value="true"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_1" nVehContrib="106" flow="1272.00" occupancy="8.25" speed="21.64" harmonicMeanSpeed="21.55" length="5.00" nVehEntered="107"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_2" nVehContrib="98" flow="1176.00" occupancy="8.05" speed="20.40" harmonicMeanSpeed="20.28" length="5.00" nVehEntered="98"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_3" nVehContrib="89" flow="1068.00" occupancy="7.67" speed="19.58" harmonicMeanSpeed="19.49" length="5.00" nVehEntered="90"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_4" nVehContrib="83" flow="996.00" occupancy="7.26" speed="19.16" harmonicMeanSpeed="19.05" length="5.00" nVehEntered="83"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_5" nVehContrib="74" flow="888.00" occupancy="6.55" speed="18.90" harmonicMeanSpeed="18.82" length="5.00" nVehEntered="74"/>
+</detector>
+l begin="300.00" end="600.00" id="weaving_downstream_e1_1" nVehContrib="114" flow="1368.00" occupancy="8.81" speed="21.52" harmonicMeanSpeed="21.42" length="5.00" nVehEntered="113"/>
+    <interval begin="300.00" end="600.00" id="weaving_downstream_e1_2" nVehContrib="112" flow="1344.00" occupancy="9.44" speed="19.93" harmonicMeanSpeed="19.77" length="5.00" nVehEntered="112"/>
+    <interval begin="300.00" end="600.00" id="weaving_downstream_e1_3" nVehContrib="112" flow="1344.00" occupancy="9.72" speed="19.31" harmonicMeanSpeed="19.19" length="5.00" nVehEntered="112"/>
+    <interval begin="300.00" end="600.00" id="weaving_downstream_e1_4" nVehContrib="93" flow="1116.00" occupancy="8.37" speed="18.59" harmonicMeanSpeed="18.51" length="5.00" nVehEntered="93"/>
+    <interval begin="300.00" end="600.00" id="weaving_downstream_e1_5" nVehContrib="66" flow="792.00" occupancy="6.27" speed="17.90" harmonicMeanSpeed="17.58" length="5.00" nVehEntered="67"/>
+    <interval begin="600.00" end="900.00" id="weaving_downstream_e1_1" nVehContrib="118" flow="1416.00" occupancy="9.24" speed="21.38" harmonicMeanSpeed="21.27" length="5.00" nVehEntered="118"/>
+    <interval begin="600.00" end="900.00" id="weaving_downstream_e1_2" nVehContrib="115" flow="1380.00" occupancy="9.68" speed="19.91" harmonicMeanSpeed="19.79" length="5.00" nVehEntered="115"/>
+    <interval begin="600.00" end="900.00" id="weaving_downstream_e1_3" nVehContrib="100" flow="1200.00" occupancy="8.66" speed="19.34" harmonicMeanSpeed="19.24" length="5.00" nVehEntered="100"/>
+    <interval begin="600.00" end="900.00" id="weaving_downstream_e1_4" nVehContrib="94" flow="1128.00" occupancy="8.36" speed="18.82" harmonicMeanSpeed="18.74" length="5.00" nVehEntered="94"/>
+    <interval begin="600.00" end="900.00" id="weaving_downstream_e1_5" nVehContrib="103" flow="1236.00" occupancy="9.65" speed="17.86" harmonicMeanSpeed="17.80" length="5.00" nVehEntered="103"/>
+    <interval begin="900.00" end="1200.00" id="weaving_downstream_e1_1" nVehContrib="111" flow="1332.00" occupancy="8.46" speed="21.92" harmonicMeanSpeed="21.86" length="5.00" nVehEntered="111"/>
+    <interval begin="900.00" end="1200.00" id="weaving_downstream_e1_2" nVehContrib="109" flow="1308.00" occupancy="8.93" speed="20.57" harmonicMeanSpeed="20.35" length="5.00" nVehEntered="109"/>
+    <interval begin="900.00" end="1200.00" id="weaving_downstream_e1_3" nVehContrib="106" flow="1272.00" occupancy="9.23" speed="19.41" harmonicMeanSpeed="19.32" length="5.00" nVehEntered="107"/>
+    <interval begin="900.00" end="1200.00" id="weaving_downstream_e1_4" nVehContrib="104" flow="1248.00" occupancy="9.80" speed="17.81" harmonicMeanSpeed="17.68" length="5.00" nVehEntered="104"/>
+    <interval begin="900.00" end="1200.00" id="weaving_downstream_e1_5" nVehContrib="85" flow="1020.00" occupancy="8.22" speed="17.42" harmonicMeanSpeed="17.37" length="5.00" nVehEntered="87"/>
+    <interval begin="1200.00" end="1500.00" id="weaving_downstream_e1_1" nVehContrib="117" flow="1404.00" occupancy="9.19" speed="21.33" harmonicMeanSpeed="21.22" length="5.00" nVehEntered="117"/>
+    <interval begin="1200.00" end="1500.00" id="weaving_downstream_e1_2" nVehContrib="116" flow="1392.00" occupancy="9.85" speed="19.84" harmonicMeanSpeed="19.71" length="5.00" nVehEntered="117"/>
+    <interval begin="1200.00" end="1500.00" id="weaving_downstream_e1_3" nVehContrib="107" flow="1284.00" occupancy="9.32" speed="19.31" harmonicMeanSpeed="19.21" length="5.00" nVehEntered="108"/>
+    <interval begin="1200.00" end="1500.00" id="weaving_downstream_e1_4" nVehContrib="95" flow="1140.00" occupancy="8.51" speed="18.71" harmonicMeanSpeed="18.60" length="5.00" nVehEntered="95"/>
+    <interval begin="1200.00" end="1500.00" id="weaving_downstream_e1_5" nVehContrib="92" flow="1104.00" occupancy="8.59" speed="17.95" harmonicMeanSpeed="17.84" length="5.00" nVehEntered="92"/>
+    <interval begin="1500.00" end="1800.00" id="weaving_downstream_e1_1" nVehContrib="123" flow="1476.00" occupancy="9.95" speed="20.72" harmonicMeanSpeed="20.61" length="5.00" nVehEntered="123"/>
+    <interval begin="1500.00" end="1800.00" id="weaving_downstream_e1_2" nVehContrib="112" flow="1344.00" occupancy="9.51" speed="19.75" harmonicMeanSpeed="19.62" length="5.00" nVehEntered="112"/>
+    <interval begin="1500.00" end="1800.00" id="weaving_downstream_e1_3" nVehContrib="103" flow="1236.00" occupancy="9.09" speed="19.06" harmonicMeanSpeed="18.97" length="5.00" nVehEntered="104"/>
+    <interval begin="1500.00" end="1800.00" id="weaving_downstream_e1_4" nVehContrib="98" flow="1176.00" occupancy="9.10" speed="18.12" harmonicMeanSpeed="18.03" length="5.00" nVehEntered="99"/>
+    <interval begin="1500.00" end="1800.00" id="weaving_downstream_e1_5" nVehContrib="89" flow="1068.00" occupancy="8.53" speed="17.47" harmonicMeanSpeed="17.40" length="5.00" nVehEntered="89"/>
+    <interval begin="1800.00" end="2100.00" id="weaving_downstream_e1_1" nVehContrib="122" flow="1464.00" occupancy="9.64" speed="21.17" harmonicMeanSpeed="21.10" length="5.00" nVehEntered="122"/>
+    <interval begin="1800.00" end="2100.00" id="weaving_downstream_e1_2" nVehContrib="111" flow="1332.00" occupancy="9.17" speed="20.24" harmonicMeanSpeed="20.17" length="5.00" nVehEntered="111"/>
+    <interval begin="1800.00" end="2100.00" id="weaving_downstream_e1_3" nVehContrib="96" flow="1152.00" occupancy="8.28" speed="19.55" harmonicMeanSpeed="19.36" length="5.00" nVehEntered="97"/>
+    <interval begin="1800.00" end="2100.00" id="weaving_downstream_e1_4" nVehContrib="106" flow="1272.00" occupancy="9.80" speed="18.26" harmonicMeanSpeed="18.20" length="5.00" nVehEntered="108"/>
+    <interval begin="1800.00" end="2100.00" id="weaving_downstream_e1_5" nVehContrib="83" flow="996.00" occupancy="7.78" speed="17.83" harmonicMeanSpeed="17.78" length="5.00" nVehEntered="83"/>
+    <interval begin="2100.00" end="2400.00" id="weaving_downstream_e1_1" nVehContrib="117" flow="1404.00" occupancy="9.30" speed="21.05" harmonicMeanSpeed="20.98" length="5.00" nVehEntered="117"/>
+    <interval begin="2100.00" end="2400.00" id="weaving_downstream_e1_2" nVehContrib="112" flow="1344.00" occupancy="9.31" speed="20.22" harmonicMeanSpeed="20.06" length="5.00" nVehEntered="112"/>
+    <interval begin="2100.00" end="2400.00" id="weaving_downstream_e1_3" nVehContrib="101" flow="1212.00" occupancy="8.83" speed="19.35" harmonicMeanSpeed="19.30" length="5.00" nVehEntered="102"/>
+    <interval begin="2100.00" end="2400.00" id="weaving_downstream_e1_4" nVehContrib="104" flow="1248.00" occupancy="9.56" speed="18.26" harmonicMeanSpeed="18.22" length="5.00" nVehEntered="105"/>
+    <interval begin="2100.00" end="2400.00" id="weaving_downstream_e1_5" nVehContrib="80" flow="960.00" occupancy="7.59" speed="17.77" harmonicMeanSpeed="17.73" length="5.00" nVehEntered="81"/>
+    <interval begin="2400.00" end="2700.00" id="weaving_downstream_e1_1" nVehContrib="116" flow="1392.00" occupancy="8.99" speed="21.56" harmonicMeanSpeed="21.51" length="5.00" nVehEntered="116"/>
+    <interval begin="2400.00" end="2700.00" id="weaving_downstream_e1_2" nVehContrib="110" flow="1320.00" occupancy="9.18" speed="20.15" harmonicMeanSpeed="20.06" length="5.00" nVehEntered="111"/>
+    <interval begin="2400.00" end="2700.00" id="weaving_downstream_e1_3" nVehContrib="104" flow="1248.00" occupancy="8.96" speed="19.41" harmonicMeanSpeed="19.36" length="5.00" nVehEntered="104"/>
+    <interval begin="2400.00" end="2700.00" id="weaving_downstream_e1_4" nVehContrib="111" flow="1332.00" occupancy="10.34" speed="17.95" harmonicMeanSpeed="17.88" length="5.00" nVehEntered="111"/>
+    <interval begin="2400.00" end="2700.00" id="weaving_downstream_e1_5" nVehContrib="85" flow="1020.00" occupancy="8.03" speed="17.55" harmonicMeanSpeed="17.48" length="5.00" nVehEntered="84"/>
+</detector>
