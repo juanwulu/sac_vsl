@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2022-12-07 14:38:19 by Eclipse SUMO netedit Version 1.15.0
+<!-- generated on 2022-12-09 08:14:56 by Eclipse SUMO netedit Version 1.15.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/src/assets/I80/i80.net.xml"/>
+        <sumo-net-file value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/ce299/assets/I80/i80.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/src/assets/I80/i80.net.xml"/>
+        <output-file value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/ce299/assets/I80/i80.net.xml"/>
     </output>
 
     <processing>
@@ -30,7 +30,7 @@
     </pedestrian>
 
     <netedit>
-        <additional-files value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/src/assets/I80/i80.add.xml"/>
+        <additional-files value="/Users/dave/Desktop/fall_22/ce_299/ce299_fall2022/ce299/assets/I80/i80.add.xml"/>
     </netedit>
 
 </configuration>

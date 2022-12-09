@@ -42,8 +42,8 @@ def main() -> None:
     # SAC Configurations
     parser.add_argument('--buffer-size', type=int, default=int(1e5),
                         help='Replay buffer capacity.')
-    parser.add_argument('--num-steps', type=int, default=int(1e5),
-                        help='Total number of steps to run.')
+    parser.add_argument('--num-episode', type=int, default=int(5e5),
+                        help='Total number of episode to run.')
     parser.add_argument('--conv-activation', type=str, default='relu',
                         help='Convolutional layer activation function.')
     parser.add_argument('--fc-hiddens', nargs='+', type=int,
@@ -115,7 +115,7 @@ def main() -> None:
         result = algo.train()
         logger.info(pretty_print(result))
 
-        if episode % args['save_frequency']:
+        if episode % args['save_frequency'] == 0:
             checkpoint = algo.save(
                 os.path.join(LOG_DIR, args['exp_name'], 'checkpoint'),
                 prevent_upload=True

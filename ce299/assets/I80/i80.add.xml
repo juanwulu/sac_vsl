@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2022-12-07 14:38:20 by Eclipse SUMO netedit Version 1.15.0
+<!-- generated on 2022-12-09 08:14:38 by Eclipse SUMO netedit Version 1.15.0
 -->
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <!-- StoppingPlaces -->
+    <busStop id="bs_0" lane="236650202#0_0" startPos="43.96" endPos="53.96"/>
     <!-- Detectors -->
     <inductionLoop id="e1_0" lane="powell_on_ramp_0" pos="98.42" period="300.00" file="output/on_ramp.xml"/>
     <inductionLoop id="e1_4" lane="i80_upstream_n_2" pos="241.71" period="300.00" file="output/upstream.xml"/>
