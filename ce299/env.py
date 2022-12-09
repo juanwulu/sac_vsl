@@ -300,9 +300,17 @@ class CVI80VSLEnv(Env):
         return os.path.join(ASSET_DIR, 'I80/tmp', 'i80.rou.xml')
 
     def set_vsl(self, action: ActType) -> None:
+        if isinstance(action, float):
+            vsl = action
+        elif isinstance(action, np.ndarray) and len(action.shape) == 1:
+            vsl = action[0]
+        else:
+            raise ValueError(f'Invalid action value {action}!')
+
         for vehicle in self.vehicles:
             if 'cv' in vehicle:
-                traci.vehicle.setMaxSpeed(vehicle, action[0])
+                # traci.vehicle.setMaxSpeed(vehicle, vsl)
+                traci.vehicle.setSpeed(vehicle, vsl)
 
     def warm_up(self) -> None:
         """Warm up simulation before getting the starting state."""
