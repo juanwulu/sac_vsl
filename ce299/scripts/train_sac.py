@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import ray
+import torch as th
 from ray.rllib.algorithms.sac import SAC
 from ray.tune.logger import pretty_print
 
@@ -58,9 +59,11 @@ def main() -> None:
                         help='Number of steps to save model checkpoint.')
     args = vars(parser.parse_args())
 
-    if args['gpu']:
-        ray.init(num_gpus=len(args.get('gpu_id', [0])))
+    if args['gpu'] and th.cuda.is_available():
+        num_gpus: int = len(args.get('gpu_id', [0, ]))
+        ray.init(num_gpus=num_gpus)
     else:
+        num_gpus: int = 0
         ray.init()
 
     if not os.path.isdir(LOG_DIR):
@@ -88,6 +91,7 @@ def main() -> None:
         'horizon': 600,
 
         # ===Model Settings===
+        'num_gpus': num_gpus,
         'framework': 'torch',
         'q_model_config': {
             'conv_filters': None,
