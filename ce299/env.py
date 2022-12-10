@@ -31,7 +31,7 @@ else:
 ASSET_DIR = os.path.join(os.path.dirname(__file__), 'assets')
 
 
-class CVI80VSLEnv(Env):
+class CAVI80VSLEnv(Env):
     """I80 Emeryville connected vehicle variable speed limit environment.
 
     This environment is associated with the variable speed limit control
@@ -76,7 +76,6 @@ class CVI80VSLEnv(Env):
         )
         self.exp_name = config.get('exp_name', 'default')
         self.raster_length = config.get('raster_length', 20.0)
-        self.step_interval: float = config.get('step_interval', 6.0)
         self.sumo_binary = 'sumo-gui' if config.get('gui', False) else 'sumo'
         self.sumo_cfg = os.path.join(ASSET_DIR, 'I80', 'i80.sumo.cfg')
         self.route_file = self.set_route()
@@ -93,6 +92,12 @@ class CVI80VSLEnv(Env):
             # Ramps
             'powell_on_ramp',
             'ashby_off_ramp'
+        ]
+        self._vsl_edges = [
+            'i80_upstream_n'
+        ]
+        self._rew_edges = [
+            'i80_weaving_n'
         ]
         self._edge_left_grid_map = {}
         self._edge_right_grid_map = {}
@@ -122,9 +127,7 @@ class CVI80VSLEnv(Env):
         ) + 1
         self.observation_space = Box(
             low=0.0, high=float('inf'),
-            shape=(
-                int(self.obs_height * self.step_interval), self.obs_width, 2
-            )
+            shape=(self.obs_height * 5, self.obs_width, 3)
         )
 
         # Action and Reward parameters
@@ -168,19 +171,16 @@ class CVI80VSLEnv(Env):
         self.warm_up()
 
         curr_time = traci.simulation.getTime()
-        obs, t_feat = [], []
-        for time_step in range(math.floor(self.step_interval)):
-            while traci.simulation.getTime() < curr_time + 1.0:
+        obs = [self.get_observation()]
+        for timestep in range(1, 6, 1):
+            while traci.simulation.getTime() < curr_time + 60.0:
                 traci.simulationStep()
 
-            curr_obs = self.get_observation()
+            curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
-            t_feat.append(np.ones_like(curr_obs) * time_step)
-            curr_time += 1.0
+            curr_time += 60.0
 
         obs = np.concatenate(obs, axis=0)
-        t_feat = np.concatenate(t_feat, axis=0)
-        obs = np.stack([obs, t_feat]).transpose(1, 2, 0)
 
         return obs
 
@@ -198,31 +198,31 @@ class CVI80VSLEnv(Env):
             self.set_vsl(_action)
 
         curr_time = traci.simulation.getTime()
-        obs, t_feat = [], []
+        obs = [self.get_observation()]
         reward = []
-        for time_step in range(math.floor(self.step_interval)):
-            while traci.simulation.getTime() < curr_time + 1.0:
+        for timestep in range(1, 6, 1):
+            while traci.simulation.getTime() < curr_time + 60.0:
                 traci.simulationStep()
 
-            curr_obs = self.get_observation()
+            curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
-            t_feat.append(np.ones_like(curr_obs) * time_step)
             reward.append(self.get_reward())
-            curr_time += 1.0
+            curr_time += 60.0
 
         obs = np.concatenate(obs, axis=0)
-        t_feat = np.concatenate(t_feat, axis=0)
-        obs = np.stack([obs, t_feat]).transpose(1, 2, 0)
         reward = np.mean(reward)  # Return the maximum reward in the interval
-        done = traci.simulation.getTime() >= 3900
+        done = traci.simulation.getTime() >= 7550
 
         if done:
             self.close()
 
         return obs, reward, done, {}
 
-    def get_observation(self) -> np.ndarray:
-        obs = np.zeros([self.obs_height, self.obs_width], 'float32')
+    def get_observation(self, timestep: int = 0) -> np.ndarray:
+        obs = np.zeros([self.obs_height, self.obs_width, 3], 'float32')
+        # Last dimension: time stamp encoding
+        obs[:, :, 2] = np.ones_like(obs[:, :, 2]) * timestep
+
         for edge_id in self._obs_edges:
             edge = self._net.getEdge(edge_id)
             edge_len = edge.getLength()
@@ -232,6 +232,7 @@ class CVI80VSLEnv(Env):
 
             for idx in range(num_lanes):
                 row_obs = np.zeros([1, _right - _left], 'float32')
+                row_cav_obs = np.zeros([1, _right - _left], 'float32')
                 lane_id = '_'.join([edge_id, str(idx)])
                 veh_ids = traci.lane.getLastStepVehicleIDs(lane_id)
                 veh_pos = list(
@@ -246,39 +247,55 @@ class CVI80VSLEnv(Env):
                     rear_grid = math.floor(v_pos / self.raster_length)
                     front_grid = math.ceil(v_pos / self.raster_length)
                     if rear_grid + 1 == front_grid:
+                        # Case 1: vehicle is within a grid
                         row_obs[0, rear_grid] += 1
+                        if 'cav' in v_id:
+                            row_cav_obs[0, rear_grid] += 1
                     if rear_grid + 2 == front_grid:
+                        # Case 2: vehicle crosses consecutive grids
                         ref = self.raster_length * (rear_grid + 1)
                         if rear_grid >= 0:
-                            row_obs[0, rear_grid] = \
-                                (ref - v_pos + veh_len / 2) / veh_len
+                            # Clip left grid
+                            ratio = (ref - v_pos + veh_len / 2) / veh_len
+                            row_obs[0, rear_grid] += ratio
+                            if 'cav' in v_id:
+                                row_cav_obs[0, rear_grid] += ratio
                         if rear_grid + 1 <= _right:
-                            row_obs[0, rear_grid + 1] = \
-                                (v_pos + veh_len / 2 - ref) / veh_len
+                            # Clip right grid
+                            ratio = (v_pos - ref + veh_len / 2) / veh_len
+                            row_obs[0, rear_grid + 1] += ratio
+                            if 'cav' in v_id:
+                                row_cav_obs[0, rear_grid + 1] += ratio
 
                 if 'ramp' in edge_id:
-                    obs[-1, _left:_right] = row_obs
+                    obs[-1, _left:_right, 0] = row_obs
+                    obs[-1, _left:_right, 1] = row_cav_obs
                 else:
-                    obs[idx, _left:_right] = row_obs
+                    obs[idx, _left:_right, 0] = row_obs
+                    obs[idx, _left:_right, 1] = row_cav_obs
 
         return obs
 
     def get_reward(self) -> float:
         # Harmonization: Minimize variation of mainline vehicles' speed
-        var_reward = -np.var(
-            [traci.vehicle.getSpeed(v) for v in self.mainline_vehicles]
+        # var_reward = -np.var(
+        #     [traci.vehicle.getSpeed(v) for v in self.mainline_vehicles]
+        # )
+
+        # Efficiency: Maximize the approximate throughput flow
+        flow_reward = np.sum(
+            [traci.edge.getLastStepMeanSpeed(edge) *
+             traci.edge.getLastStepOccupancy(edge)
+             for edge in self._rew_edges]
         )
 
-        # Efficiency: Minimize average waiting time of all vehicles
-        wt_reward = -np.mean(
-            [traci.vehicle.getTimeLoss(v) for v in self.vehicles]
-        )
+        reward = flow_reward
 
-        return 0.6 * var_reward + 0.4 * wt_reward
+        return reward
 
     def set_route(self) -> PathLike:
-        if not os.path.isdir(os.path.join(ASSET_DIR, 'tmp')):
-            os.makedirs(os.path.join(ASSET_DIR, 'tmp'))
+        if not os.path.isdir(os.path.join(ASSET_DIR, 'I80', 'tmp')):
+            os.makedirs(os.path.join(ASSET_DIR, 'I80', 'tmp'))
 
         my_tree = ET.parse(os.path.join(ASSET_DIR, 'I80', 'i80.rou.xml'))
         if self.penetration_rate > 0.0:
@@ -292,8 +309,8 @@ class CVI80VSLEnv(Env):
                 cv_flow: ET.Element = deepcopy(flow)
                 flow.set('vehsPerHour', str(new_vph))
                 cv_flow.set('vehsPerHour', str(new_cv_vph))
-                cv_flow.set('id', flow_id + '_cv')
-                cv_flow.set('type', 'cv_car')
+                cv_flow.set('id', flow_id + '_cav')
+                cv_flow.set('type', 'cav_car')
                 my_root.append(cv_flow)
         my_tree.write(os.path.join(ASSET_DIR, 'I80/tmp', 'i80.rou.xml'))
 
@@ -308,14 +325,13 @@ class CVI80VSLEnv(Env):
             raise ValueError(f'Invalid action value {action}!')
 
         for vehicle in self.vehicles:
-            if 'cv' in vehicle:
+            if 'cav' in vehicle:
                 # traci.vehicle.setMaxSpeed(vehicle, vsl)
                 traci.vehicle.setSpeed(vehicle, vsl)
 
     def warm_up(self) -> None:
         """Warm up simulation before getting the starting state."""
-        while traci.simulation.getTime() <= \
-                300 - math.floor(self.step_interval):
+        while traci.simulation.getTime() <= 50.0:
             traci.simulationStep()
 
     @property
@@ -343,7 +359,7 @@ class CVI80VSLEnv(Env):
 
 
 if __name__ == '__main__':
-    env = CVI80VSLEnv(penetration_rate=0.1, gui=True)
+    env = CAVI80VSLEnv(penetration_rate=0.1, gui=True)
     obs, _ = env.reset(seed=42)
     done = False
     while not done:

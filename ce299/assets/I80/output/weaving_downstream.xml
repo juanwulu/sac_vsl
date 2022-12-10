@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-12-10 07:11:15 by Eclipse SUMO GUI Version 1.15.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="../ce299/assets/I80/i80.net.xml"/>
+        <route-files value="../ce299/assets/I80/tmp/i80.rou.xml"/>
+        <additional-files value="../ce299/assets/I80/i80.add.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <lanechange.duration value="1.5"/>
+    </processing>
+
+    <report>
+        <verbose value="false"/>
+        <no-warnings value="true"/>
+        <duration-log.disable value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="50739"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="23423"/>
+    </random_number>
+
+    <gui_only>
+        <quit-on-end value="true"/>
+        <start value="true"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_1" nVehContrib="83" flow="996.00" occupancy="16.39" speed="13.31" harmonicMeanSpeed="8.44" length="5.00" nVehEntered="83"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_2" nVehContrib="79" flow="948.00" occupancy="14.53" speed="11.19" harmonicMeanSpeed="9.06" length="5.00" nVehEntered="79"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_3" nVehContrib="74" flow="888.00" occupancy="11.20" speed="12.26" harmonicMeanSpeed="11.03" length="5.00" nVehEntered="75"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_4" nVehContrib="73" flow="876.00" occupancy="11.03" speed="12.16" harmonicMeanSpeed="11.03" length="5.00" nVehEntered="73"/>
+    <interval begin="0.00" end="300.00" id="weaving_downstream_e1_5" nVehContrib="65" flow="780.00" occupancy="12.85" speed="11.94" harmonicMeanSpeed="8.43" length="5.00" nVehEntered="65"/>
+    <interval begin="300.00" end="595.10" id="weaving_downstream_e1_1" nVehContrib="112" flow="1366.32" occupancy="28.32" speed="7.06" harmonicMeanSpeed="6.70" length="5.00" nVehEntered="112"/>
+    <interval begin="300.00" end="595.10" id="weaving_downstream_e1_2" nVehContrib="117" flow="1427.31" occupancy="23.18" speed="9.36" harmonicMeanSpeed="8.55" length="5.00" nVehEntered="117"/>
+    <interval begin="300.00" end="595.10" id="weaving_downstream_e1_3" nVehContrib="101" flow="1232.12" occupancy="15.00" speed="12.47" harmonicMeanSpeed="11.46" length="5.00" nVehEntered="102"/>
+    <interval begin="300.00" end="595.10" id="weaving_downstream_e1_4" nVehContrib="84" flow="1024.74" occupancy="15.68" speed="10.25" harmonicMeanSpeed="9.08" length="5.00" nVehEntered="85"/>
+    <interval begin="300.00" end="595.10" id="weaving_downstream_e1_5" nVehContrib="74" flow="902.74" occupancy="15.29" speed="10.79" harmonicMeanSpeed="8.25" length="5.00" nVehEntered="76"/>
+</detector>

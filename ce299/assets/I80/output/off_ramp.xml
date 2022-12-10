@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-12-10 07:42:35 by Eclipse SUMO sumo Version 1.15.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="../ce299/assets/I80/i80.net.xml"/>
+        <route-files value="../ce299/assets/I80/tmp/i80.rou.xml"/>
+        <additional-files value="../ce299/assets/I80/i80.add.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <lanechange.duration value="1.5"/>
+    </processing>
+
+    <report>
+        <verbose value="false"/>
+        <no-warnings value="true"/>
+        <duration-log.disable value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="52489"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="23423"/>
+    </random_number>
+
+    <gui_only>
+        <quit-on-end value="true"/>
+        <start value="true"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
+    <interval begin="0.00" end="300.00" id="off_ramp_e1_0" nVehContrib="32" flow="384.00" occupancy="3.15" speed="17.68" harmonicMeanSpeed="16.92" length="5.00" nVehEntered="32"/>
+    <interval begin="300.00" end="600.00" id="off_ramp_e1_0" nVehContrib="46" flow="552.00" occupancy="9.15" speed="11.18" harmonicMeanSpeed="8.37" length="5.00" nVehEntered="46"/>
+    <interval begin="600.00" end="650.10" id="off_ramp_e1_0" nVehContrib="11" flow="790.42" occupancy="11.00" speed="10.40" harmonicMeanSpeed="9.99" length="5.00" nVehEntered="12"/>
+</detector>

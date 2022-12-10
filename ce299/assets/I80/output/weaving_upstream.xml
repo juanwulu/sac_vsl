@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-12-10 07:42:35 by Eclipse SUMO sumo Version 1.15.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="../ce299/assets/I80/i80.net.xml"/>
+        <route-files value="../ce299/assets/I80/tmp/i80.rou.xml"/>
+        <additional-files value="../ce299/assets/I80/i80.add.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <lanechange.duration value="1.5"/>
+    </processing>
+
+    <report>
+        <verbose value="false"/>
+        <no-warnings value="true"/>
+        <duration-log.disable value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="52489"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="23423"/>
+    </random_number>
+
+    <gui_only>
+        <quit-on-end value="true"/>
+        <start value="true"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
+    <interval begin="0.00" end="300.00" id="weaving_upstream_e1_1" nVehContrib="84" flow="1008.00" occupancy="20.21" speed="9.90" harmonicMeanSpeed="6.93" length="5.00" nVehEntered="84"/>
+    <interval begin="0.00" end="300.00" id="weaving_upstream_e1_2" nVehContrib="89" flow="1068.00" occupancy="14.41" speed="12.18" harmonicMeanSpeed="10.30" length="5.00" nVehEntered="89"/>
+    <interval begin="0.00" end="300.00" id="weaving_upstream_e1_3" nVehContrib="76" flow="912.00" occupancy="11.40" speed="12.22" harmonicMeanSpeed="11.11" length="5.00" nVehEntered="76"/>
+    <interval begin="0.00" end="300.00" id="weaving_upstream_e1_4" nVehContrib="88" flow="1056.00" occupancy="17.55" speed="9.69" harmonicMeanSpeed="8.48" length="5.00" nVehEntered="89"/>
+    <interval begin="0.00" end="300.00" id="weaving_upstream_e1_5" nVehContrib="94" flow="1128.00" occupancy="24.85" speed="8.39" harmonicMeanSpeed="6.43" length="5.00" nVehEntered="95"/>
+    <interval begin="300.00" end="600.00" id="weaving_upstream_e1_1" nVehContrib="110" flow="1320.00" occupancy="23.33" speed="8.43" harmonicMeanSpeed="7.86" length="5.00" nVehEntered="110"/>
+    <interval begin="300.00" end="600.00" id="weaving_upstream_e1_2" nVehContrib="106" flow="1272.00" occupancy="20.86" speed="9.35" harmonicMeanSpeed="8.47" length="5.00" nVehEntered="106"/>
+    <interval begin="300.00" end="600.00" id="weaving_upstream_e1_3" nVehContrib="103" flow="1236.00" occupancy="18.98" speed="11.11" harmonicMeanSpeed="9.18" length="5.00" nVehEntered="106"/>
+    <interval begin="300.00" end="600.00" id="weaving_upstream_e1_4" nVehContrib="101" flow="1212.00" occupancy="22.97" speed="7.65" harmonicMeanSpeed="7.43" length="5.00" nVehEntered="104"/>
+    <interval begin="300.00" end="600.00" id="weaving_upstream_e1_5" nVehContrib="109" flow="1308.00" occupancy="26.45" speed="7.39" harmonicMeanSpeed="6.87" length="5.00" nVehEntered="109"/>
+    <interval begin="600.00" end="650.10" id="weaving_upstream_e1_1" nVehContrib="15" flow="1077.84" occupancy="23.16" speed="7.26" harmonicMeanSpeed="6.63" length="5.00" nVehEntered="16"/>
+    <interval begin="600.00" end="650.10" id="weaving_upstream_e1_2" nVehContrib="21" flow="1508.98" occupancy="15.36" speed="13.84" harmonicMeanSpeed="13.65" length="5.00" nVehEntered="21"/>
+    <interval begin="600.00" end="650.10" id="weaving_upstream_e1_3" nVehContrib="19" flow="1365.27" occupancy="20.00" speed="10.20" harmonicMeanSpeed="9.48" length="5.00" nVehEntered="19"/>
+    <interval begin="600.00" end="650.10" id="weaving_upstream_e1_4" nVehContrib="18" flow="1293.41" occupancy="24.80" speed="7.68" harmonicMeanSpeed="7.55" length="5.00" nVehEntered="18"/>
+    <interval begin="600.00" end="650.10" id="weaving_upstream_e1_5" nVehContrib="16" flow="1149.70" occupancy="29.08" speed="5.86" harmonicMeanSpeed="5.49" length="5.00" nVehEntered="16"/>
+</detector>

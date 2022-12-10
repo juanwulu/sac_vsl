@@ -16,7 +16,7 @@ import torch as th
 from ray.rllib.algorithms.sac import SAC
 from ray.tune.logger import pretty_print
 
-from ce299.env import CVI80VSLEnv
+from ce299.env import CAVI80VSLEnv
 
 
 # Global Variable
@@ -31,19 +31,15 @@ def main() -> None:
                         help='Penetration rate of connected vehicles.')
     parser.add_argument('--exp-name', type=str, default='CVI80VSL_default',
                         help='Experiment name.')
-    parser.add_argument('--raster-length', type=float, default=20.0,
-                        help='Longitudinal length of raster, default 20.0m.')
     parser.add_argument('--gui', action='store_true', default=False,
                         help='Enable SUMO GUI for visualization.')
-    parser.add_argument('--step-interval', type=float, default=6.0,
-                        help='Step interval in seconds.')
     parser.add_argument('--continuous', action='store_true', default=False,
                         help='Enable continous action space.')
 
     # SAC Configurations
     parser.add_argument('--buffer-size', type=int, default=int(1e5),
                         help='Replay buffer capacity.')
-    parser.add_argument('--num-episode', type=int, default=int(5e5),
+    parser.add_argument('--num-episode', type=int, default=int(5e3),
                         help='Total number of episode to run.')
     parser.add_argument('--conv-activation', type=str, default='relu',
                         help='Convolutional layer activation function.')
@@ -55,8 +51,10 @@ def main() -> None:
                         help='Enable GPU acceleration.')
     parser.add_argument('--gpu-id', nargs='+', type=int, default=[0,],
                         help='GPU device ids to train on.')
-    parser.add_argument('--save-frequency', type=int, default=6000,
+    parser.add_argument('--save-frequency', type=int, default=100,
                         help='Number of steps to save model checkpoint.')
+    parser.add_argument('--evaluation-interval', type=int, default=None,
+                        help='Evaluate frequency in number of iterations.')
     args = vars(parser.parse_args())
 
     if args['gpu'] and th.cuda.is_available():
@@ -68,8 +66,10 @@ def main() -> None:
 
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)
-    os.makedirs(os.path.join(LOG_DIR, args['exp_name']))
-    os.makedirs(os.path.join(LOG_DIR, args['exp_name'], 'checkpoint'))
+    os.makedirs(os.path.join(LOG_DIR, args['exp_name']), exist_ok=True)
+    os.makedirs(
+        os.path.join(LOG_DIR, args['exp_name'], 'checkpoint'), exist_ok=True
+    )
 
     logger = logging.getLogger(__name__)
     logging.basicConfig(format='# %(asctime)s %(name)s %(message)s',
@@ -79,16 +79,14 @@ def main() -> None:
 
     algo = SAC(config={
         # ===Environment Settings===
-        'env': CVI80VSLEnv,
+        'env': CAVI80VSLEnv,
         'env_config': {
             'penetration_rate': args['penetration_rate'],
             'exp_name': args['exp_name'],
-            'raster_length': args['raster_length'],
             'gui': args['gui'],
-            'step_interval': args['step_interval'],
             'discrete': not args['continuous']
         },
-        'horizon': 600,
+        'horizon': 24,
 
         # ===Model Settings===
         'num_gpus': num_gpus,
@@ -112,6 +110,10 @@ def main() -> None:
         'replay_buffer_config': {
             'capacity': args['buffer_size']
         },
+
+        # ===Evaluation Settings===
+        'evaluation_interval': args['evaluation_interval'],
+        'evaluation_duration': 3,
 
     })
 
