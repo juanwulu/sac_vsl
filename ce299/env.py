@@ -174,7 +174,7 @@ class CAVI80VSLEnv(Env):
         self.warm_up()
 
         curr_time = traci.simulation.getTime()
-        obs = [self.get_observation()]
+        obs = []
         for timestep in range(1, 7, 1):
             while traci.simulation.getTime() < curr_time + 30.0:
                 traci.simulationStep()
