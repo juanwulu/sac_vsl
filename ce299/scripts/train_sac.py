@@ -33,6 +33,8 @@ def main() -> None:
                         help='Experiment name.')
     parser.add_argument('--gui', action='store_true', default=False,
                         help='Enable SUMO GUI for visualization.')
+    parser.add_argument('--step-length', type=float, default=1.0,
+                        help='Step length of the environment.')
     parser.add_argument('--continuous', action='store_true', default=False,
                         help='Enable continous action space.')
 
@@ -83,12 +85,14 @@ def main() -> None:
         'env_config': {
             'penetration_rate': args['penetration_rate'],
             'exp_name': args['exp_name'],
+            'step_length': args['step_length'],
             'gui': args['gui'],
             'discrete': not args['continuous']
         },
-        'horizon': 24,
+        'horizon': 30,
 
         # ===Model Settings===
+        'num_workers': 0,
         'num_gpus': num_gpus,
         'framework': 'torch',
         'q_model_config': {
@@ -112,9 +116,8 @@ def main() -> None:
         },
 
         # ===Evaluation Settings===
-        'evaluation_interval': args['evaluation_interval'],
-        'evaluation_duration': 3,
-
+        # 'evaluation_interval': args['evaluation_interval'],
+        # 'evaluation_duration': 3,
     })
 
     for episode in range(1, args['num_episode'] + 1):

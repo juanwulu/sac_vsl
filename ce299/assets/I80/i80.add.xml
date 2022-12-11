@@ -20,7 +20,7 @@
     <inductionLoop id="mainline_outflow_e1_2" lane="i80_downstream_n_3" pos="200.00" period="300.00" file="output/outflow.xml"/>
     <inductionLoop id="mainline_outflow_e1_3" lane="i80_downstream_n_2" pos="200.00" period="300.00" file="output/outflow.xml"/>
     <inductionLoop id="mainline_outflow_e1_4" lane="i80_downstream_n_1" pos="200.00" period="300.00" file="output/outflow.xml"/>
-    <inductionLoop id="mainline_outflow_e1_5" lane="i80_downstream_n_0" pos="200.00" period="300.00" file="e1_12.xml"/>
+    <inductionLoop id="mainline_outflow_e1_5" lane="i80_downstream_n_0" pos="200.00" period="300.00" file="output/outflow.xml"/>
     <inductionLoop id="off_ramp_e1_0" lane="ashby_off_ramp_0" pos="15.00" period="300.00" file="output/off_ramp.xml"/>
     <inductionLoop id="upstream_e1_1" lane="i80_upstream_n_5" pos="241.71" period="300.00" file="output/upstream.xml"/>
     <inductionLoop id="upstream_e1_2" lane="i80_upstream_n_4" pos="241.71" period="300.00" file="output/upstream.xml"/>
@@ -30,4 +30,10 @@
     <inductionLoop id="weaving_upstream_e1_3" lane="i80_weaving_n_3" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
     <inductionLoop id="weaving_upstream_e1_4" lane="i80_weaving_n_2" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
     <inductionLoop id="weaving_upstream_e1_5" lane="i80_weaving_n_1" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_1" lane="i80_weaving_ext_n_5" pos="50.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_2" lane="i80_weaving_ext_n_4" pos="50.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_3" lane="i80_weaving_ext_n_3" pos="50.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_4" lane="i80_weaving_ext_n_2" pos="50.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_5" lane="i80_weaving_ext_n_1" pos="50.00" period="300.00" file="output/weaving_downstream.xml"/>
+    <inductionLoop id="weaving_downstream_e1_6" lane="i80_weaving_ext_n_0" pos="50.00" period="300.00" file="output/weaving_downstream.xml"/>
 </additional>

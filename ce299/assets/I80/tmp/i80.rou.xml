@@ -10,9 +10,38 @@
     <route id="through_off" edges="i80_load_n i80_upstream_n i80_weaving_n i80_weaving_ext_n ashby_off_ramp" />
 
     
-    <flow begin="0" end="7200" departPos="base" departSpeed="max" departLane="random" id="through_0" route="through" type="car" vehsPerHour="9446.4" />
-    <flow begin="0" end="7200" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_0" route="on_through" type="car" vehsPerHour="1878" />
-    <flow begin="0" end="7200" departPos="base" departSpeed="max" departLane="random" id="ashby_off_0" route="through_off" type="car" vehsPerHour="1290" />
+    <flow begin="0" end="300" departPos="base" departSpeed="max" departLane="random" id="through_0" route="through" type="car" vehsPerHour="5289.6" />
+    <flow begin="0" end="300" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_0" route="on_through" type="car" vehsPerHour="615" />
+    <flow begin="0" end="300" departPos="base" departSpeed="max" departLane="random" id="ashby_off_0" route="through_off" type="car" vehsPerHour="738" />
 
-<flow begin="0" end="7200" departPos="base" departSpeed="max" departLane="random" id="through_0_cav" route="through" type="cav_car" vehsPerHour="2361.6" />
+    <flow begin="300" end="1200" departPos="base" departSpeed="max" departLane="random" id="through_1" route="through" type="car" vehsPerHour="6691.200000000001" />
+    <flow begin="300" end="1200" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_1" route="on_through" type="car" vehsPerHour="779" />
+    <flow begin="300" end="1200" departPos="base" departSpeed="max" departLane="random" id="ashby_off_1" route="through_off" type="car" vehsPerHour="934" />
+
+    <flow begin="1200" end="2100" departPos="base" departSpeed="max" departLane="random" id="through_2" route="through" type="car" vehsPerHour="6240.0" />
+    <flow begin="1200" end="2100" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_2" route="on_through" type="car" vehsPerHour="726" />
+    <flow begin="1200" end="2100" departPos="base" departSpeed="max" departLane="random" id="ashby_off_2" route="through_off" type="car" vehsPerHour="871" />
+
+    <flow begin="2100" end="3000" departPos="base" departSpeed="max" departLane="random" id="through_3" route="through" type="car" vehsPerHour="5990.400000000001" />
+    <flow begin="2100" end="3000" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_3" route="on_through" type="car" vehsPerHour="883" />
+    <flow begin="2100" end="3000" departPos="base" departSpeed="max" departLane="random" id="ashby_off_3" route="through_off" type="car" vehsPerHour="840" />
+
+    <flow begin="3000" end="3900" departPos="base" departSpeed="max" departLane="random" id="through_4" route="through" type="car" vehsPerHour="6086.400000000001" />
+    <flow begin="3000" end="3900" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_4" route="on_through" type="car" vehsPerHour="897" />
+    <flow begin="3000" end="3900" departPos="base" departSpeed="max" departLane="random" id="ashby_off_4" route="through_off" type="car" vehsPerHour="850" />
+
+    <flow begin="3900" end="4800" departPos="base" departSpeed="max" departLane="random" id="through_5" route="through" type="car" vehsPerHour="5020.8" />
+    <flow begin="3900" end="4800" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_5" route="on_through" type="car" vehsPerHour="740" />
+    <flow begin="3900" end="4800" departPos="base" departSpeed="max" departLane="random" id="ashby_off_5" route="through_off" type="car" vehsPerHour="701" />
+
+    <flow begin="4800" end="5700" departPos="base" departSpeed="max" departLane="random" id="through_6" route="through" type="car" vehsPerHour="4608.0" />
+    <flow begin="4800" end="5700" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_6" route="on_through" type="car" vehsPerHour="679" />
+    <flow begin="4800" end="5400" departPos="base" departSpeed="max" departLane="random" id="ashby_off_6" route="through_off" type="car" vehsPerHour="643" />
+<flow begin="0" end="300" departPos="base" departSpeed="max" departLane="random" id="through_0_cav" route="through" type="cav_car" vehsPerHour="1322.4" />
+    <flow begin="300" end="1200" departPos="base" departSpeed="max" departLane="random" id="through_1_cav" route="through" type="cav_car" vehsPerHour="1672.8000000000002" />
+    <flow begin="1200" end="2100" departPos="base" departSpeed="max" departLane="random" id="through_2_cav" route="through" type="cav_car" vehsPerHour="1560.0" />
+    <flow begin="2100" end="3000" departPos="base" departSpeed="max" departLane="random" id="through_3_cav" route="through" type="cav_car" vehsPerHour="1497.6000000000001" />
+    <flow begin="3000" end="3900" departPos="base" departSpeed="max" departLane="random" id="through_4_cav" route="through" type="cav_car" vehsPerHour="1521.6000000000001" />
+    <flow begin="3900" end="4800" departPos="base" departSpeed="max" departLane="random" id="through_5_cav" route="through" type="cav_car" vehsPerHour="1255.2" />
+    <flow begin="4800" end="5700" departPos="base" departSpeed="max" departLane="random" id="through_6_cav" route="through" type="cav_car" vehsPerHour="1152.0" />
     </routes>

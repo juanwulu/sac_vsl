@@ -74,6 +74,7 @@ class CAVI80VSLEnv(Env):
             'Expect penetration rate to be between 0 and 1, ',
             f'but got {self.penetration_rate}.'
         )
+        self.step_length = config.get('step_length', 1.0)
         self.exp_name = config.get('exp_name', 'default')
         self.raster_length = config.get('raster_length', 20.0)
         self.sumo_binary = 'sumo-gui' if config.get('gui', False) else 'sumo'
@@ -94,6 +95,7 @@ class CAVI80VSLEnv(Env):
             'ashby_off_ramp'
         ]
         self._vsl_edges = [
+            'i80_load_n',
             'i80_upstream_n'
         ]
         self._rew_edges = [
@@ -127,7 +129,7 @@ class CAVI80VSLEnv(Env):
         ) + 1
         self.observation_space = Box(
             low=0.0, high=float('inf'),
-            shape=(self.obs_height * 5, self.obs_width, 3)
+            shape=(self.obs_height * 6, self.obs_width, 3)
         )
 
         # Action and Reward parameters
@@ -156,6 +158,7 @@ class CAVI80VSLEnv(Env):
                 '--route-files', self.route_file,
                 '--start',
                 '--seed', str(seed),
+                '--step-length', str(float(self.step_length)),
                 '--quit-on-end'
             ]
         else:
@@ -163,6 +166,7 @@ class CAVI80VSLEnv(Env):
                 self.sumo_binary,
                 '-c', self.sumo_cfg,
                 '--route-files', self.route_file,
+                '--step-length', str(float(self.step_length)),
                 '--start',
                 '--quit-on-end'
             ]
@@ -172,13 +176,13 @@ class CAVI80VSLEnv(Env):
 
         curr_time = traci.simulation.getTime()
         obs = [self.get_observation()]
-        for timestep in range(1, 6, 1):
-            while traci.simulation.getTime() < curr_time + 60.0:
+        for timestep in range(1, 7, 1):
+            while traci.simulation.getTime() < curr_time + 30.0:
                 traci.simulationStep()
 
             curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
-            curr_time += 60.0
+            curr_time += 30.0
 
         obs = np.concatenate(obs, axis=0)
 
@@ -198,20 +202,20 @@ class CAVI80VSLEnv(Env):
             self.set_vsl(_action)
 
         curr_time = traci.simulation.getTime()
-        obs = [self.get_observation()]
+        obs = []
         reward = []
-        for timestep in range(1, 6, 1):
-            while traci.simulation.getTime() < curr_time + 60.0:
+        for timestep in range(1, 7, 1):
+            while traci.simulation.getTime() < curr_time + 30.0:
                 traci.simulationStep()
 
             curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
             reward.append(self.get_reward())
-            curr_time += 60.0
+            curr_time += 30.0
 
         obs = np.concatenate(obs, axis=0)
         reward = np.mean(reward)  # Return the maximum reward in the interval
-        done = traci.simulation.getTime() >= 7550
+        done = traci.simulation.getTime() >= 5700
 
         if done:
             self.close()
@@ -283,13 +287,16 @@ class CAVI80VSLEnv(Env):
         # )
 
         # Efficiency: Maximize the approximate throughput flow
-        flow_reward = np.sum(
-            [traci.edge.getLastStepMeanSpeed(edge) *
-             traci.edge.getLastStepOccupancy(edge)
-             for edge in self._rew_edges]
+        # flow_reward = np.sum(
+        #     [traci.edge.getLastStepMeanSpeed(edge) *
+        #      traci.edge.getLastStepOccupancy(edge)
+        #      for edge in self._rew_edges]
+        # )
+        speed_reward = np.mean(
+            [traci.edge.getLastStepMeanSpeed(edge) for edge in self._rew_edges]
         )
 
-        reward = flow_reward
+        reward = speed_reward
 
         return reward
 
@@ -325,22 +332,22 @@ class CAVI80VSLEnv(Env):
             raise ValueError(f'Invalid action value {action}!')
 
         for vehicle in self.vehicles:
+            traci.vehicle.setSpeed(vehicle, -1)
+
+        for vehicle in self.action_vehicles:
             if 'cav' in vehicle:
                 # traci.vehicle.setMaxSpeed(vehicle, vsl)
                 traci.vehicle.setSpeed(vehicle, vsl)
 
     def warm_up(self) -> None:
         """Warm up simulation before getting the starting state."""
-        while traci.simulation.getTime() <= 50.0:
+        while traci.simulation.getTime() < 120.0:
             traci.simulationStep()
 
     @property
-    def mainline_vehicles(self) -> List[str]:
+    def action_vehicles(self) -> List[str]:
         ml_veh_ids = []
-        for edge_id in self._obs_edges:
-            if 'i80' not in edge_id:
-                continue
-
+        for edge_id in self._vsl_edges:
             edge = self._net.getEdge(edge_id)
             for lane in edge.getLanes():
                 ml_veh_ids += traci.lane.getLastStepVehicleIDs(lane.getID())
@@ -350,8 +357,7 @@ class CAVI80VSLEnv(Env):
     @property
     def vehicles(self) -> List[str]:
         veh_ids = []
-        for edge_id in self._obs_edges:
-            edge = self._net.getEdge(edge_id)
+        for edge in self._net.getEdges():
             for lane in edge.getLanes():
                 veh_ids += traci.lane.getLastStepVehicleIDs(lane.getID())
 
@@ -363,6 +369,6 @@ if __name__ == '__main__':
     obs, _ = env.reset(seed=42)
     done = False
     while not done:
-        next_obs, rew, done, _, _ = env.step(env.action_space.sample())
+        next_obs, rew, done, _ = env.step(env.action_space.sample())
         obs = next_obs
     env.close()

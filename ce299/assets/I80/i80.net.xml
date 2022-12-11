@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2022-12-09 08:14:56 by Eclipse SUMO netedit Version 1.15.0
+<!-- generated on 2022-12-10 17:28:41 by Eclipse SUMO netedit Version 1.15.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -7263,19 +7263,19 @@
     <connection from="i80_shrink_n" to="i80_downstream_n" fromLane="3" toLane="2" via=":1378905428_0_2" dir="s" state="M"/>
     <connection from="i80_shrink_n" to="i80_downstream_n" fromLane="4" toLane="3" via=":1378905428_0_3" dir="s" state="M"/>
     <connection from="i80_shrink_n" to="i80_downstream_n" fromLane="5" toLane="4" via=":1378905428_0_4" dir="s" state="M"/>
-    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="0" toLane="0" via=":30364622_1_0" dir="s" state="Z"/>
-    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="1" toLane="1" via=":30364622_1_1" dir="s" state="M"/>
-    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="2" toLane="2" via=":30364622_1_2" dir="s" state="M"/>
-    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="3" toLane="3" via=":30364622_1_3" dir="s" state="M"/>
-    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="4" toLane="4" via=":30364622_1_4" dir="s" state="M"/>
-    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="5" toLane="5" via=":30364622_1_5" dir="s" state="M"/>
-    <connection from="i80_weaving_ext_n" to="ashby_off_ramp" fromLane="0" toLane="0" via=":35833157_0_0" dir="R" state="M"/>
-    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="0" toLane="0" via=":35833157_1_0" dir="s" state="M"/>
-    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="1" toLane="1" via=":35833157_1_1" dir="s" state="M"/>
-    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="2" toLane="2" via=":35833157_1_2" dir="s" state="M"/>
-    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="3" toLane="3" via=":35833157_1_3" dir="s" state="M"/>
-    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="4" toLane="4" via=":35833157_1_4" dir="s" state="M"/>
-    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="5" toLane="5" via=":35833157_1_5" dir="s" state="M"/>
+    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="0" toLane="0" keepClear="0" via=":30364622_1_0" dir="s" state="Z"/>
+    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="1" toLane="1" keepClear="0" via=":30364622_1_1" dir="s" state="M"/>
+    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="2" toLane="2" keepClear="0" via=":30364622_1_2" dir="s" state="M"/>
+    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="3" toLane="3" keepClear="0" via=":30364622_1_3" dir="s" state="M"/>
+    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="4" toLane="4" keepClear="0" via=":30364622_1_4" dir="s" state="M"/>
+    <connection from="i80_upstream_n" to="i80_weaving_n" fromLane="5" toLane="5" keepClear="0" via=":30364622_1_5" dir="s" state="M"/>
+    <connection from="i80_weaving_ext_n" to="ashby_off_ramp" fromLane="0" toLane="0" keepClear="0" via=":35833157_0_0" dir="R" state="M"/>
+    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="0" toLane="0" keepClear="0" via=":35833157_1_0" dir="s" state="M"/>
+    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="1" toLane="1" keepClear="0" via=":35833157_1_1" dir="s" state="M"/>
+    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="2" toLane="2" keepClear="0" via=":35833157_1_2" dir="s" state="M"/>
+    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="3" toLane="3" keepClear="0" via=":35833157_1_3" dir="s" state="M"/>
+    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="4" toLane="4" keepClear="0" via=":35833157_1_4" dir="s" state="M"/>
+    <connection from="i80_weaving_ext_n" to="i80_shrink_n" fromLane="5" toLane="5" keepClear="0" via=":35833157_1_5" dir="s" state="M"/>
     <connection from="i80_weaving_n" to="i80_weaving_ext_n" fromLane="0" toLane="0" via=":5056104063_0_0" dir="s" state="M"/>
     <connection from="i80_weaving_n" to="i80_weaving_ext_n" fromLane="1" toLane="1" via=":5056104063_0_1" dir="s" state="M"/>
     <connection from="i80_weaving_n" to="i80_weaving_ext_n" fromLane="2" toLane="2" via=":5056104063_0_2" dir="s" state="M"/>
@@ -7286,7 +7286,7 @@
     <connection from="powell_acc" to="powell_on_ramp" fromLane="1" toLane="0" via=":76008747_0_1" dir="s" state="M"/>
     <connection from="powell_exit" to="powell_acc" fromLane="0" toLane="0" via=":3966940905_0_0" dir="s" state="M"/>
     <connection from="powell_exit" to="powell_acc" fromLane="1" toLane="1" via=":3966940905_0_1" dir="s" state="M"/>
-    <connection from="powell_on_ramp" to="i80_weaving_n" fromLane="0" toLane="0" via=":30364622_0_0" dir="s" state="Z"/>
+    <connection from="powell_on_ramp" to="i80_weaving_n" fromLane="0" toLane="0" keepClear="0" via=":30364622_0_0" dir="s" state="Z"/>
 
     <connection from=":10170832052_0" to="1111706782" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from=":10170832052_0" to="1111706782" fromLane="1" toLane="1" dir="s" state="M"/>
