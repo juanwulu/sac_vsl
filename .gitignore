@@ -2,6 +2,7 @@
 .DS_Store
 /img
 /data
+/logs
 /notebook
 
 # Byte-compiled / optimized / DLL files
