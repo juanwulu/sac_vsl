@@ -16,8 +16,6 @@ from gym.core import ActType, Env, ObsType
 from gym.spaces import Box, Discrete
 from ray.rllib.env.env_context import EnvContext
 
-from ce299.typing import PathLike
-
 # SUMO Traci
 if 'SUMO_HOME' in os.environ:
     sys.path.append(os.path.join(os.environ['SUMO_HOME'], 'tools'))
