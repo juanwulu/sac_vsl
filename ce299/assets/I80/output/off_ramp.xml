@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2022-12-10 17:37:49 by Eclipse SUMO sumo Version 1.15.0
+<!-- generated on 2022-12-10 18:01:10 by Eclipse SUMO sumo Version 1.15.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
         <net-file value="../ce299/assets/I80/i80.net.xml"/>
-        <route-files value="../ce299/assets/I80/tmp/i80.rou.xml"/>
+        <route-files value="../ce299/assets/I80/i80.rou_pr_10.xml"/>
         <additional-files value="../ce299/assets/I80/i80.add.xml"/>
     </input>
 
@@ -25,7 +25,7 @@
     </report>
 
     <traci_server>
-        <remote-port value="58212"/>
+        <remote-port value="58720"/>
     </traci_server>
 
     <random_number>
@@ -38,26 +38,3 @@
     </gui_only>
 
 </configuration>
--->
-
-<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
-    <interval begin="0.00" end="300.00" id="off_ramp_e1_0" nVehContrib="31" flow="372.00" occupancy="5.16" speed="12.92" harmonicMeanSpeed="10.02" length="5.00" nVehEntered="31"/>
-    <interval begin="300.00" end="600.00" id="off_ramp_e1_0" nVehContrib="70" flow="840.00" occupancy="13.66" speed="10.18" harmonicMeanSpeed="8.54" length="5.00" nVehEntered="70"/>
-    <interval begin="600.00" end="900.00" id="off_ramp_e1_0" nVehContrib="64" flow="768.00" occupancy="9.29" speed="12.85" harmonicMeanSpeed="11.49" length="5.00" nVehEntered="64"/>
-    <interval begin="900.00" end="1200.00" id="off_ramp_e1_0" nVehContrib="54" flow="648.00" occupancy="9.67" speed="11.53" harmonicMeanSpeed="9.31" length="5.00" nVehEntered="54"/>
-    <interval begin="1200.00" end="1500.00" id="off_ramp_e1_0" nVehContrib="63" flow="756.00" occupancy="10.71" speed="12.13" harmonicMeanSpeed="9.80" length="5.00" nVehEntered="63"/>
-    <interval begin="1500.00" end="1800.00" id="off_ramp_e1_0" nVehContrib="60" flow="720.00" occupancy="13.14" speed="9.02" harmonicMeanSpeed="7.61" length="5.00" nVehEntered="60"/>
-    <interval begin="1800.00" end="2100.00" id="off_ramp_e1_0" nVehContrib="68" flow="816.00" occupancy="13.54" speed="10.68" harmonicMeanSpeed="8.37" length="5.00" nVehEntered="68"/>
-    <interval begin="2100.00" end="2400.00" id="off_ramp_e1_0" nVehContrib="61" flow="732.00" occupancy="12.99" speed="9.42" harmonicMeanSpeed="7.82" length="5.00" nVehEntered="61"/>
-    <interval begin="2400.00" end="2700.00" id="off_ramp_e1_0" nVehContrib="60" flow="720.00" occupancy="11.19" speed="10.66" harmonicMeanSpeed="8.94" length="5.00" nVehEntered="60"/>
-    <interval begin="2700.00" end="3000.00" id="off_ramp_e1_0" nVehContrib="61" flow="732.00" occupancy="12.58" speed="9.46" harmonicMeanSpeed="8.08" length="5.00" nVehEntered="61"/>
-    <interval begin="3000.00" end="3300.00" id="off_ramp_e1_0" nVehContrib="64" flow="768.00" occupancy="15.14" speed="8.15" harmonicMeanSpeed="7.06" length="5.00" nVehEntered="65"/>
-    <interval begin="3300.00" end="3600.00" id="off_ramp_e1_0" nVehContrib="62" flow="744.00" occupancy="12.79" speed="9.47" harmonicMeanSpeed="8.06" length="5.00" nVehEntered="61"/>
-    <interval begin="3600.00" end="3900.00" id="off_ramp_e1_0" nVehContrib="63" flow="756.00" occupancy="13.24" speed="9.74" harmonicMeanSpeed="7.93" length="5.00" nVehEntered="63"/>
-    <interval begin="3900.00" end="4200.00" id="off_ramp_e1_0" nVehContrib="58" flow="696.00" occupancy="13.34" speed="8.76" harmonicMeanSpeed="7.25" length="5.00" nVehEntered="58"/>
-    <interval begin="4200.00" end="4500.00" id="off_ramp_e1_0" nVehContrib="62" flow="744.00" occupancy="8.41" speed="13.55" harmonicMeanSpeed="12.28" length="5.00" nVehEntered="62"/>
-    <interval begin="4500.00" end="4800.00" id="off_ramp_e1_0" nVehContrib="68" flow="816.00" occupancy="16.19" speed="8.26" harmonicMeanSpeed="7.00" length="5.00" nVehEntered="68"/>
-    <interval begin="4800.00" end="5100.00" id="off_ramp_e1_0" nVehContrib="59" flow="708.00" occupancy="13.75" speed="8.65" harmonicMeanSpeed="7.15" length="5.00" nVehEntered="59"/>
-    <interval begin="5100.00" end="5400.00" id="off_ramp_e1_0" nVehContrib="63" flow="756.00" occupancy="12.06" speed="9.93" harmonicMeanSpeed="8.71" length="5.00" nVehEntered="63"/>
-    <interval begin="5400.00" end="5700.00" id="off_ramp_e1_0" nVehContrib="55" flow="660.00" occupancy="10.30" speed="11.32" harmonicMeanSpeed="9.19" length="5.00" nVehEntered="56"/>
-</detector>

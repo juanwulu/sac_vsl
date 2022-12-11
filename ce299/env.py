@@ -9,9 +9,7 @@ import math
 import os
 import sys
 import time
-from copy import deepcopy
 from typing import Any, Dict, List, Optional, Tuple
-from xml.etree import ElementTree as ET
 
 import numpy as np
 from gym.core import ActType, Env, ObsType
@@ -70,8 +68,8 @@ class CAVI80VSLEnv(Env):
         super().__init__()
 
         self.penetration_rate = config.get('penetration_rate', 0.0)
-        assert 0.0 <= self.penetration_rate <= 1.0, ValueError(
-            'Expect penetration rate to be between 0 and 1, ',
+        assert self.penetration_rate in [0.0, 0.1, 0.2, 0.5, 1.0], ValueError(
+            'Expect penetration rate to be within [0.0, 0.1, 0.2, 0.5, 1.0], ',
             f'but got {self.penetration_rate}.'
         )
         self.step_length = config.get('step_length', 1.0)
@@ -79,7 +77,10 @@ class CAVI80VSLEnv(Env):
         self.raster_length = config.get('raster_length', 20.0)
         self.sumo_binary = 'sumo-gui' if config.get('gui', False) else 'sumo'
         self.sumo_cfg = os.path.join(ASSET_DIR, 'I80', 'i80.sumo.cfg')
-        self.route_file = self.set_route()
+        self.route_file = os.path.join(
+            ASSET_DIR, 'I80',
+            f'i80.rou_pr_{int(self.penetration_rate * 100)}.xml'
+        )
 
         # Observation parameters
         self._net = sumolib.net.readNet(
@@ -299,29 +300,6 @@ class CAVI80VSLEnv(Env):
         reward = speed_reward
 
         return reward
-
-    def set_route(self) -> PathLike:
-        if not os.path.isdir(os.path.join(ASSET_DIR, 'I80', 'tmp')):
-            os.makedirs(os.path.join(ASSET_DIR, 'I80', 'tmp'))
-
-        my_tree = ET.parse(os.path.join(ASSET_DIR, 'I80', 'i80.rou.xml'))
-        if self.penetration_rate > 0.0:
-            my_root = my_tree.getroot()
-            my_flow = my_root.findall('flow[@route="through"]')
-            for flow in my_flow:
-                flow_id = flow.get('id')
-                vehs_per_hour = float(flow.get('vehsPerHour'))
-                new_cv_vph = self.penetration_rate * vehs_per_hour
-                new_vph = (1 - self.penetration_rate) * vehs_per_hour
-                cv_flow: ET.Element = deepcopy(flow)
-                flow.set('vehsPerHour', str(new_vph))
-                cv_flow.set('vehsPerHour', str(new_cv_vph))
-                cv_flow.set('id', flow_id + '_cav')
-                cv_flow.set('type', 'cav_car')
-                my_root.append(cv_flow)
-        my_tree.write(os.path.join(ASSET_DIR, 'I80/tmp', 'i80.rou.xml'))
-
-        return os.path.join(ASSET_DIR, 'I80/tmp', 'i80.rou.xml')
 
     def set_vsl(self, action: ActType) -> None:
         if isinstance(action, float):
