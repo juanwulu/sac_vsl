@@ -79,6 +79,9 @@ class CAVI80VSLEnv(Env):
             ASSET_DIR, 'I80',
             f'i80.rou_pr_{int(self.penetration_rate * 100)}.xml'
         )
+        if not os.path.isdir(os.path.join(ASSET_DIR, 'I80', 'output')):
+            # Output directory for detectors
+            os.makedirs(os.path.join(ASSET_DIR, 'I80', 'output'))
 
         # Observation parameters
         self._net = sumolib.net.readNet(
