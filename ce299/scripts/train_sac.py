@@ -35,13 +35,13 @@ def main() -> None:
                         help='Enable SUMO GUI for visualization.')
     parser.add_argument('--step-length', type=float, default=1.0,
                         help='Step length of the environment.')
-    parser.add_argument('--continuous', action='store_true', default=False,
-                        help='Enable continous action space.')
+    parser.add_argument('--discrete', action='store_true', default=False,
+                        help='Enable discrete variable speed limits')
 
     # SAC Configurations
     parser.add_argument('--buffer-size', type=int, default=int(1e5),
                         help='Replay buffer capacity.')
-    parser.add_argument('--num-episode', type=int, default=int(5e3),
+    parser.add_argument('--num-episode', type=int, default=100,
                         help='Total number of episode to run.')
     parser.add_argument('--conv-activation', type=str, default='relu',
                         help='Convolutional layer activation function.')
@@ -51,7 +51,7 @@ def main() -> None:
                         help='FC layer activation function descriptor.')
     parser.add_argument('--gpu', action='store_true', default=False,
                         help='Enable GPU acceleration.')
-    parser.add_argument('--gpu-id', nargs='+', type=int, default=[0,],
+    parser.add_argument('--gpu-id', nargs='+', type=int, default=[0],
                         help='GPU device ids to train on.')
     parser.add_argument('--save-frequency', type=int, default=100,
                         help='Number of steps to save model checkpoint.')
@@ -89,7 +89,7 @@ def main() -> None:
             'gui': args['gui'],
             'discrete': not args['continuous']
         },
-        'horizon': 30,
+        'horizon': 90,
 
         # ===Model Settings===
         'num_workers': 0,

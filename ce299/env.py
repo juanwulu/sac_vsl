@@ -176,12 +176,12 @@ class CAVI80VSLEnv(Env):
         curr_time = traci.simulation.getTime()
         obs = []
         for timestep in range(1, 7, 1):
-            while traci.simulation.getTime() < curr_time + 30.0:
+            while traci.simulation.getTime() < curr_time + 10.0:
                 traci.simulationStep()
 
             curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
-            curr_time += 30.0
+            curr_time += 10.0
 
         obs = np.concatenate(obs, axis=0)
 
@@ -204,13 +204,13 @@ class CAVI80VSLEnv(Env):
         obs = []
         reward = []
         for timestep in range(1, 7, 1):
-            while traci.simulation.getTime() < curr_time + 30.0:
+            while traci.simulation.getTime() < curr_time + 10.0:
                 traci.simulationStep()
 
             curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
             reward.append(self.get_reward())
-            curr_time += 30.0
+            curr_time += 10.0
 
         obs = np.concatenate(obs, axis=0)
         reward = np.mean(reward)  # Return the maximum reward in the interval
@@ -291,9 +291,14 @@ class CAVI80VSLEnv(Env):
         #      traci.edge.getLastStepOccupancy(edge)
         #      for edge in self._rew_edges]
         # )
-        speed_reward = np.mean(
-            [traci.edge.getLastStepMeanSpeed(edge) for edge in self._rew_edges]
-        )
+        speed_reward = np.mean([
+            np.mean([
+                traci.lane.getLastStepMeanSpeed(lane.getID()) /
+                traci.lane.getMaxSpeed(lane.getID())
+                for lane in self._net.getEdge(edge).getLanes()
+            ])
+            for edge in self._rew_edges
+        ])
 
         reward = speed_reward
 
@@ -317,7 +322,7 @@ class CAVI80VSLEnv(Env):
 
     def warm_up(self) -> None:
         """Warm up simulation before getting the starting state."""
-        while traci.simulation.getTime() < 120.0:
+        while traci.simulation.getTime() < 240.0:
             traci.simulationStep()
 
     @property
