@@ -41,7 +41,7 @@ def main() -> None:
     # SAC Configurations
     parser.add_argument('--buffer-size', type=int, default=int(1e5),
                         help='Replay buffer capacity.')
-    parser.add_argument('--num-episode', type=int, default=100,
+    parser.add_argument('--num-episode', type=int, default=200,
                         help='Total number of episode to run.')
     parser.add_argument('--conv-activation', type=str, default='relu',
                         help='Convolutional layer activation function.')
@@ -53,7 +53,7 @@ def main() -> None:
                         help='Enable GPU acceleration.')
     parser.add_argument('--gpu-id', nargs='+', type=int, default=[0],
                         help='GPU device ids to train on.')
-    parser.add_argument('--save-frequency', type=int, default=100,
+    parser.add_argument('--save-frequency', type=int, default=10,
                         help='Number of steps to save model checkpoint.')
     parser.add_argument('--evaluation-interval', type=int, default=None,
                         help='Evaluate frequency in number of iterations.')
@@ -87,7 +87,7 @@ def main() -> None:
             'exp_name': args['exp_name'],
             'step_length': args['step_length'],
             'gui': args['gui'],
-            'discrete': not args['continuous']
+            'discrete': args['discrete']
         },
         'horizon': 90,
 
