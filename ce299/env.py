@@ -187,6 +187,7 @@ class CAVI80VSLEnv(Env):
             curr_time += 30.0
 
         obs = np.concatenate(obs, axis=0)
+        self.curr_vsl = 24.59
 
         return obs
 
@@ -198,25 +199,35 @@ class CAVI80VSLEnv(Env):
                 f'but got {action.shape}.'
             )
             # NOTE: Continuous VSL
-            self.set_vsl(action)
         else:
-            _action = self.action_list[action]
-            self.set_vsl(_action)
+            action = self.action_list[action]
+
+        if isinstance(action, float):
+            vsl = action
+        elif isinstance(action, np.ndarray) and len(action.shape) == 1:
+            vsl = action[0]
+        else:
+            raise ValueError(f'Invalid action value {action}!')
+
+        # penalty inconsistent vsl
+        penalty = -min(abs(vsl - self.curr_vsl) / 4.17, 1.0)
+        self.set_vsl(vsl)
 
         curr_time = traci.simulation.getTime()
         obs = []
         reward = []
         for timestep in range(1, 7, 1):
-            while traci.simulation.getTime() < curr_time + 30.0:
+            while traci.simulation.getTime() < curr_time + 10.0:
                 traci.simulationStep()
+                reward.append(self.get_reward())
 
             curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
-            reward.append(self.get_reward())
-            curr_time += 30.0
+            curr_time += 10.0
 
         obs = np.concatenate(obs, axis=0)
-        reward = np.mean(reward)  # Return the maximum reward in the interval
+        reward = np.mean(reward)  # Return the average reward in the interval
+        reward = reward + 0.2 * penalty
         done = traci.simulation.getTime() >= 5700
 
         if done:
@@ -289,34 +300,40 @@ class CAVI80VSLEnv(Env):
         # )
 
         # Efficiency: Maximize the approximate throughput flow
-        # flow_reward = np.sum(
-        #     [traci.edge.getLastStepMeanSpeed(edge) *
-        #      traci.edge.getLastStepOccupancy(edge)
-        #      for edge in self._rew_edges]
-        # )
-        speed_reward = np.mean(
-            [traci.edge.getLastStepMeanSpeed(edge) for edge in self._rew_edges]
+        tt_reward = -traci.multientryexit.getLastIntervalMeanTravelTime(
+            'weaving_e3'
         )
+        # speed_reward = np.mean([
+        #     np.quantile([
+        #         traci.lane.getLastStepMeanSpeed(lane.getID()) /
+        #         traci.lane.getMaxSpeed(lane.getID())
+        #         for lane in self._net.getEdge(edge).getLanes()
+        #     ], q=0.15)
+        #     for edge in self._rew_edges
+        # ])
 
-        reward = speed_reward
+        # Congestion reward: Minimize the jam distance in lanearea detectors
+        # jam_reward = np.sum([
+        #     traci.lanearea.getJamLengthVehicle(f'e2_{i}')
+        #     for i in range(6)
+        # ])
+
+        reward = 0.05 * tt_reward
 
         return reward
 
-    def set_vsl(self, action: ActType) -> None:
-        if isinstance(action, float):
-            vsl = action
-        elif isinstance(action, np.ndarray) and len(action.shape) == 1:
-            vsl = action[0]
-        else:
-            raise ValueError(f'Invalid action value {action}!')
+    def set_vsl(self, vsl: float) -> None:
+        # for vehicle in self.vehicles:
+        #     traci.vehicle.setSpeed(vehicle, -1)
 
-        for vehicle in self.vehicles:
-            traci.vehicle.setSpeed(vehicle, -1)
-
-        for vehicle in self.action_vehicles:
-            if 'cav' in vehicle:
-                # traci.vehicle.setMaxSpeed(vehicle, vsl)
-                traci.vehicle.setSpeed(vehicle, vsl)
+        # for vehicle in self.action_vehicles:
+        #     if 'cav' in vehicle:
+        #         # traci.vehicle.setMaxSpeed(vehicle, vsl)
+        #         traci.vehicle.setSpeed(vehicle, vsl)
+        for edge in self._vsl_edges:
+            for lane in self._net.getEdge(edge).getLanes():
+                traci.lane.setMaxSpeed(lane.getID(), vsl)
+        self.curr_vsl = vsl
 
     def warm_up(self) -> None:
         """Warm up simulation before getting the starting state."""

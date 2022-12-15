@@ -35,13 +35,13 @@ def main() -> None:
                         help='Enable SUMO GUI for visualization.')
     parser.add_argument('--step-length', type=float, default=1.0,
                         help='Step length of the environment.')
-    parser.add_argument('--continuous', action='store_true', default=False,
-                        help='Enable continous action space.')
+    parser.add_argument('--discrete', action='store_true', default=False,
+                        help='Enable discrete variable speed limits')
 
     # SAC Configurations
-    parser.add_argument('--buffer-size', type=int, default=int(1e5),
+    parser.add_argument('--buffer-size', type=int, default=int(1e6),
                         help='Replay buffer capacity.')
-    parser.add_argument('--num-episode', type=int, default=int(5e3),
+    parser.add_argument('--num-episode', type=int, default=2000,
                         help='Total number of episode to run.')
     parser.add_argument('--conv-activation', type=str, default='relu',
                         help='Convolutional layer activation function.')
@@ -51,9 +51,9 @@ def main() -> None:
                         help='FC layer activation function descriptor.')
     parser.add_argument('--gpu', action='store_true', default=False,
                         help='Enable GPU acceleration.')
-    parser.add_argument('--gpu-id', nargs='+', type=int, default=[0,],
+    parser.add_argument('--gpu-id', nargs='+', type=int, default=[0],
                         help='GPU device ids to train on.')
-    parser.add_argument('--save-frequency', type=int, default=100,
+    parser.add_argument('--save-frequency', type=int, default=200,
                         help='Number of steps to save model checkpoint.')
     parser.add_argument('--evaluation-interval', type=int, default=None,
                         help='Evaluate frequency in number of iterations.')
@@ -87,14 +87,15 @@ def main() -> None:
             'exp_name': args['exp_name'],
             'step_length': args['step_length'],
             'gui': args['gui'],
-            'discrete': not args['continuous']
+            'discrete': args['discrete']
         },
-        'horizon': 30,
+        'horizon': 90,
 
         # ===Model Settings===
         'num_workers': 0,
         'num_gpus': num_gpus,
         'framework': 'torch',
+        'lr': 0.0025,
         'q_model_config': {
             'conv_filters': None,
             'conv_activation': args['conv_activation'],
@@ -122,9 +123,9 @@ def main() -> None:
 
     for episode in range(1, args['num_episode'] + 1):
         result = algo.train()
-        logger.info(pretty_print(result))
 
         if episode % args['save_frequency'] == 0:
+            logger.info(pretty_print(result))
             checkpoint = algo.save(
                 os.path.join(LOG_DIR, args['exp_name'], 'checkpoint'),
                 prevent_upload=True

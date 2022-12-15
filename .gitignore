@@ -4,6 +4,8 @@
 /data
 /logs
 /notebook
+/run_logs
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
