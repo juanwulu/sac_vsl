@@ -209,7 +209,8 @@ class CAVI80VSLEnv(Env):
         else:
             raise ValueError(f'Invalid action value {action}!')
 
-        penalty = -abs(vsl - self.curr_vsl) / 4.17  # penalty inconsistent vsl
+        # penalty inconsistent vsl
+        penalty = -min(abs(vsl - self.curr_vsl) / 4.17, 1.0)
         self.set_vsl(vsl)
 
         curr_time = traci.simulation.getTime()
@@ -225,8 +226,8 @@ class CAVI80VSLEnv(Env):
             curr_time += 10.0
 
         obs = np.concatenate(obs, axis=0)
-        reward = np.mean(reward)  # Return the maximum reward in the interval
-        reward = 0.6 * reward + 0.4 * penalty
+        reward = np.mean(reward)  # Return the average reward in the interval
+        reward = reward + 0.2 * penalty
         done = traci.simulation.getTime() >= 5700
 
         if done:
@@ -299,21 +300,25 @@ class CAVI80VSLEnv(Env):
         # )
 
         # Efficiency: Maximize the approximate throughput flow
-        # flow_reward = np.sum(
-        #     [traci.edge.getLastStepMeanSpeed(edge) *
-        #      traci.edge.getLastStepOccupancy(edge)
-        #      for edge in self._rew_edges]
-        # )
-        speed_reward = np.mean([
-            np.mean([
-                traci.lane.getLastStepMeanSpeed(lane.getID()) /
-                traci.lane.getMaxSpeed(lane.getID())
-                for lane in self._net.getEdge(edge).getLanes()
-            ])
-            for edge in self._rew_edges
-        ])
+        tt_reward = -traci.multientryexit.getLastIntervalMeanTravelTime(
+            'weaving_e3'
+        )
+        # speed_reward = np.mean([
+        #     np.quantile([
+        #         traci.lane.getLastStepMeanSpeed(lane.getID()) /
+        #         traci.lane.getMaxSpeed(lane.getID())
+        #         for lane in self._net.getEdge(edge).getLanes()
+        #     ], q=0.15)
+        #     for edge in self._rew_edges
+        # ])
 
-        reward = speed_reward
+        # Congestion reward: Minimize the jam distance in lanearea detectors
+        # jam_reward = np.sum([
+        #     traci.lanearea.getJamLengthVehicle(f'e2_{i}')
+        #     for i in range(6)
+        # ])
+
+        reward = 0.05 * tt_reward
 
         return reward
 
