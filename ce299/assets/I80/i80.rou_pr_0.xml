@@ -1,8 +1,8 @@
 <routes>
     <!--Define Vehicle Types-->
-    <vType id="car" vClass="passenger" carFollowModel="IDM" tau="1.24" accel="3.28" decel="6.56" minGap="2.0" speedFactor="normc(1.0, 0.7, 0.2, 2)" lcOvertakeDeltaSpeedFactor="0.5" lcKeepRight="0.0" color="255,255,255"/>
+    <vType id="car" vClass="passenger" carFollowModel="IDM" tau="1.24" accel="3.28" decel="6.56" minGap="2.0" speedFactor="normc(1.0, 0.7, 0.2, 2)" lcOvertakeDeltaSpeedFactor="0.15" color="255,255,255"/>
 
-    <vType id="cav_car" vClass="passenger" carFollowModel="IDM" tau="0.60" accel="3.28" decel="6.56" minGap="0.7" speedFactor="normc(1.0, 0.2, 0.2, 2)" lcOvertakeDeltaSpeedFactor="0.5" lcKeepRight="0.0" color="255,88,93"/>
+    <vType id="cav_car" vClass="passenger" carFollowModel="IDM" tau="0.60" accel="3.28" decel="6.56" minGap="0.7" speedFactor="normc(1.0, 0.2, 0.2, 2)" lcOvertakeDeltaSpeedFactor="0.15" color="255,88,93"/>
 
     <!--Define Routes-->
     <route id="through" edges="i80_load_n i80_upstream_n i80_weaving_n i80_weaving_ext_n i80_shrink_n i80_downstream_n"/>
@@ -36,5 +36,5 @@
 
     <flow begin="4800" end="5700" departPos="base" departSpeed="max" departLane="random" id="through_6" route="through" type="car" vehsPerHour="5760"/>
     <flow begin="4800" end="5700" departPos="base" departSpeed="8.33" departLane="random" id="powell_on_6" route="on_through" type="car" vehsPerHour="679"/>
-    <flow begin="4800" end="5400" departPos="base" departSpeed="max" departLane="random" id="ashby_off_6" route="through_off" type="car" vehsPerHour="643"/>
+    <flow begin="4800" end="5700" departPos="base" departSpeed="max" departLane="random" id="ashby_off_6" route="through_off" type="car" vehsPerHour="643"/>
 </routes>

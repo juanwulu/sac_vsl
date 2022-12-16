@@ -36,7 +36,7 @@
     <inductionLoop id="weaving_upstream_e1_3" lane="i80_weaving_n_3" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
     <inductionLoop id="weaving_upstream_e1_4" lane="i80_weaving_n_2" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
     <inductionLoop id="weaving_upstream_e1_5" lane="i80_weaving_n_1" pos="50.00" period="300.00" file="output/weaving_upstream.xml"/>
-    <entryExitDetector id="weaving_e3" period="10.00" file="output/weaving_e3.xml">
+    <entryExitDetector id="weaving_e3" period="60.00" file="output/weaving_e3.xml">
         <detEntry lane="i80_weaving_n_0" pos="0.0" friendlyPos="true"/>
         <detExit lane="i80_weaving_n_0" pos="200.0" friendlyPos="true"/>
         <detEntry lane="i80_weaving_n_1" pos="0.0" friendlyPos="true"/>
