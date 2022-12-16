@@ -215,18 +215,19 @@ class CAVI80VSLEnv(Env):
 
         curr_time = traci.simulation.getTime()
         obs = []
-        reward = []
+        # reward = []
         for timestep in range(1, 7, 1):
             while traci.simulation.getTime() < curr_time + 10.0:
                 traci.simulationStep()
-                reward.append(self.get_reward())
+                # reward.append(self.get_reward())
 
             curr_obs = self.get_observation(timestep=timestep)
             obs.append(curr_obs)
             curr_time += 10.0
 
         obs = np.concatenate(obs, axis=0)
-        reward = np.mean(reward)  # Return the average reward in the interval
+        # reward = np.mean(reward)  # Return the average reward in the interval
+        reward = self.get_reward()
         reward = reward + 0.2 * penalty
         done = traci.simulation.getTime() >= 5700
 
@@ -361,8 +362,11 @@ class CAVI80VSLEnv(Env):
 
 
 if __name__ == '__main__':
-    env = CAVI80VSLEnv(penetration_rate=0.1, gui=True)
-    obs, _ = env.reset(seed=42)
+    env = CAVI80VSLEnv(config=dict(
+        penetration_rate=0.1,
+        gui=True
+    ))
+    obs = env.reset(seed=42)
     done = False
     while not done:
         next_obs, rew, done, _ = env.step(env.action_space.sample())
