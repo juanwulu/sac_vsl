@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='ce299',
+    name='sac_vsl',
     version='0.1.0',
-    packages=['ce299'],
+    packages=['sac_vsl'],
 )

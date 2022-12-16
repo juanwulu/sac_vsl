@@ -11,8 +11,8 @@ This is a final project for the individual research at UC Berkeley. Please see m
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies locally.
 
 ```bash
-git clone -b master --depth 1 https://github.com/ChocolateDave/ce299_fall2022.git
-cd ce299_fall2022 & pip install -r requirements.txt & pip install -e .
+git clone -b master --depth 1 https://github.com/ChocolateDave/sac_vsl.git
+cd sac_vsl & pip install -r requirements.txt & pip install -e .
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ cd ce299_fall2022 & pip install -r requirements.txt & pip install -e .
 A script is provide for running our codes on different penetration rate settings.
 
 ```bash
-mkdir logs/ & bash ce299/scripts/train_sac_multi_pr.sh
+mkdir logs/ & bash sac_vsl/scripts/train_sac_multi_pr.sh
 ```
     
 ## Citation
@@ -34,7 +34,7 @@ If you use this source code, please cite it using bibtex as below.
   year = {2022},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/ChocolateDave/ce299_fall22}},
+  howpublished = {\url{https://github.com/ChocolateDave/sac_vsl}},
   commit = {2b675bac077bc695048ce0072f254de25c898050}
 }
 ```

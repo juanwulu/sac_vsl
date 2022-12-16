@@ -1,0 +1,166 @@
+\begin{thebibliography}{20}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Hegyi et~al.(2005)Hegyi, De~Schutter, and Hellendoorn]{hegyi2005model}
+Andreas Hegyi, Bart De~Schutter, and Hans Hellendoorn.
+\newblock Model predictive control for optimal coordination of ramp metering
+  and variable speed limits.
+\newblock \emph{Transportation Research Part C: Emerging Technologies},
+  13\penalty0 (3):\penalty0 185--209, 2005.
+
+\bibitem[Allaby et~al.(2007)Allaby, Hellinga, and Bullock]{allaby2007variable}
+Peter Allaby, Bruce Hellinga, and Mara Bullock.
+\newblock Variable speed limits: Safety and operational impacts of a candidate
+  control strategy for freeway applications.
+\newblock \emph{IEEE Transactions on Intelligent Transportation Systems},
+  8\penalty0 (4):\penalty0 671--680, 2007.
+
+\bibitem[Li et~al.(2016)Li, Liu, Xu, and Wang]{li2016optimal}
+Zhibin Li, Pan Liu, Chengcheng Xu, and Wei Wang.
+\newblock Optimal mainline variable speed limit control to improve safety on
+  large-scale freeway segments.
+\newblock \emph{Computer-Aided Civil and Infrastructure Engineering},
+  31\penalty0 (5):\penalty0 366--380, 2016.
+
+\bibitem[Yang et~al.(2013)Yang, Lu, and Chang]{yang2013proactive}
+Xianfeng Yang, Yang~Carl Lu, and Gang-Len Chang.
+\newblock Proactive optimal variable speed limit control for recurrently
+  congested freeway bottlenecks.
+\newblock Technical report, TRB committee AHB20 Freeway Operations, 2013.
+
+\bibitem[{Trans Res Board}(2000)]{HCM2000}
+{Trans Res Board}.
+\newblock \emph{Highway Capacity Manual}.
+\newblock Transportation Research Board, National Research Council, Washington,
+  D.C., 2000.
+
+\bibitem[Liggins et~al.(1997)Liggins, Chong, Kadar, Alford, Vannicola, and
+  Thomopoulos]{liggins1997distributed}
+Martin~E Liggins, Chee-Yee Chong, Ivan Kadar, Mark~G Alford, Vincent Vannicola,
+  and Stelios Thomopoulos.
+\newblock Distributed fusion architectures and algorithms for target tracking.
+\newblock \emph{Proceedings of the IEEE}, 85\penalty0 (1):\penalty0 95--107,
+  1997.
+
+\bibitem[Lee(2008)]{lee2008unscented}
+Deok-Jin Lee.
+\newblock Unscented information filtering for distributed estimation and
+  multiple sensor fusion.
+\newblock In \emph{AIAA Guidance, Navigation and Control Conference and
+  Exhibit}, page 7426, 2008.
+
+\bibitem[Taj and Cavallaro(2011)]{taj2011distributed}
+Murtaza Taj and Andrea Cavallaro.
+\newblock Distributed and decentralized multicamera tracking.
+\newblock \emph{IEEE Signal Processing Magazine}, 28\penalty0 (3):\penalty0
+  46--58, 2011.
+
+\bibitem[Claussmann et~al.(2019)Claussmann, Revilloud, Gruyer, and
+  Glaser]{claussmann2019review}
+Laurene Claussmann, Marc Revilloud, Dominique Gruyer, and S{\'e}bastien Glaser.
+\newblock A review of motion planning for highway autonomous driving.
+\newblock \emph{IEEE Transactions on Intelligent Transportation Systems},
+  21\penalty0 (5):\penalty0 1826--1848, 2019.
+
+\bibitem[Silver et~al.(2016)Silver, Huang, Maddison, Guez, Sifre, Van
+  Den~Driessche, Schrittwieser, Antonoglou, Panneershelvam, Lanctot,
+  et~al.]{silver2016mastering}
+David Silver, Aja Huang, Chris~J Maddison, Arthur Guez, Laurent Sifre, George
+  Van Den~Driessche, Julian Schrittwieser, Ioannis Antonoglou, Veda
+  Panneershelvam, Marc Lanctot, et~al.
+\newblock Mastering the game of go with deep neural networks and tree search.
+\newblock \emph{nature}, 529\penalty0 (7587):\penalty0 484--489, 2016.
+
+\bibitem[Silver et~al.(2017)Silver, Hubert, Schrittwieser, Antonoglou, Lai,
+  Guez, Lanctot, Sifre, Kumaran, Graepel, Lillicrap, Simonyan, and
+  Hassabis]{https://doi.org/10.48550/arxiv.1712.01815}
+David Silver, Thomas Hubert, Julian Schrittwieser, Ioannis Antonoglou, Matthew
+  Lai, Arthur Guez, Marc Lanctot, Laurent Sifre, Dharshan Kumaran, Thore
+  Graepel, Timothy Lillicrap, Karen Simonyan, and Demis Hassabis.
+\newblock Mastering chess and shogi by self-play with a general reinforcement
+  learning algorithm, 2017.
+\newblock URL \url{https://arxiv.org/abs/1712.01815}.
+
+\bibitem[Ye et~al.(2020)Ye, Chen, Zhang, Chen, Yuan, Liu, Chen, Liu, Qiu, Yu,
+  Yin, Shi, Wang, Shi, Fu, Yang, Huang, and
+  Liu]{https://doi.org/10.48550/arxiv.2011.12692}
+Deheng Ye, Guibin Chen, Wen Zhang, Sheng Chen, Bo~Yuan, Bo~Liu, Jia Chen, Zhao
+  Liu, Fuhao Qiu, Hongsheng Yu, Yinyuting Yin, Bei Shi, Liang Wang, Tengfei
+  Shi, Qiang Fu, Wei Yang, Lanxiao Huang, and Wei Liu.
+\newblock Towards playing full moba games with deep reinforcement learning,
+  2020.
+\newblock URL \url{https://arxiv.org/abs/2011.12692}.
+
+\bibitem[Nguyen and La(2019)]{8675643}
+Hai Nguyen and Hung La.
+\newblock Review of deep reinforcement learning for robot manipulation.
+\newblock In \emph{2019 Third IEEE International Conference on Robotic
+  Computing (IRC)}, pages 590--595, 2019.
+\newblock \doi{10.1109/IRC.2019.00120}.
+
+\bibitem[Haarnoja et~al.(2018)Haarnoja, Zhou, Abbeel, and
+  Levine]{pmlr-v80-haarnoja18b}
+Tuomas Haarnoja, Aurick Zhou, Pieter Abbeel, and Sergey Levine.
+\newblock Soft actor-critic: Off-policy maximum entropy deep reinforcement
+  learning with a stochastic actor.
+\newblock In Jennifer Dy and Andreas Krause, editors, \emph{Proceedings of the
+  35th International Conference on Machine Learning}, volume~80 of
+  \emph{Proceedings of Machine Learning Research}, pages 1861--1870. PMLR,
+  10--15 Jul 2018.
+\newblock URL \url{https://proceedings.mlr.press/v80/haarnoja18b.html}.
+
+\bibitem[Administration(2020)]{ngsim2020}
+Federal~Highway Administration.
+\newblock Next generation simulation (ngsim), Nov 2020.
+\newblock URL \url{https://ops.fhwa.dot.gov/trafficanalysistools/ngsim.htm}.
+
+\bibitem[Shi et~al.(2016)Shi, Lin, Zhang, Cheng, Huang, Liu, and
+  Lu]{shi_research_2016}
+Shuming Shi, Nan Lin, Yan Zhang, Jingmin Cheng, Chaosheng Huang, Li~Liu, and
+  Bingwu Lu.
+\newblock Research on {Markov} property analysis of driving cycles and its
+  application.
+\newblock \emph{Transportation Research Part D: Transport and Environment},
+  47:\penalty0 171--181, August 2016.
+\newblock ISSN 1361-9209.
+\newblock \doi{10.1016/j.trd.2016.05.013}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S1361920916303042}.
+
+\bibitem[Houston et~al.(2020)Houston, Zuidhof, Bergamini, Ye, Chen, Jain,
+  Omari, Iglovikov, and Ondruska]{https://doi.org/10.48550/arxiv.2006.14480}
+John Houston, Guido Zuidhof, Luca Bergamini, Yawei Ye, Long Chen, Ashesh Jain,
+  Sammy Omari, Vladimir Iglovikov, and Peter Ondruska.
+\newblock One thousand and one hours: Self-driving motion prediction dataset,
+  2020.
+\newblock URL \url{https://arxiv.org/abs/2006.14480}.
+
+\bibitem[Lopez et~al.(2018)Lopez, Behrisch, Bieker-Walz, Erdmann,
+  Fl{\"o}tter{\"o}d, Hilbrich, L{\"u}cken, Rummel, Wagner, and
+  Wie{\ss}ner]{lopez2018microscopic}
+Pablo~Alvarez Lopez, Michael Behrisch, Laura Bieker-Walz, Jakob Erdmann,
+  Yun-Pang Fl{\"o}tter{\"o}d, Robert Hilbrich, Leonhard L{\"u}cken, Johannes
+  Rummel, Peter Wagner, and Evamarie Wie{\ss}ner.
+\newblock Microscopic traffic simulation using sumo.
+\newblock In \emph{2018 21st international conference on intelligent
+  transportation systems (ITSC)}, pages 2575--2582. IEEE, 2018.
+
+\bibitem[Kurtc and Treiber(2016)]{kurtc2016calibrating}
+Valentina Kurtc and Martin Treiber.
+\newblock Calibrating the local and platoon dynamics of car-following models on
+  the reconstructed ngsim data.
+\newblock In \emph{Traffic and Granular flow'15}, pages 515--522. Springer,
+  2016.
+
+\bibitem[Zhu et~al.(2018)Zhu, Wang, Tarko, et~al.]{zhu2018modeling}
+Meixin Zhu, Xuesong Wang, Andrew Tarko, et~al.
+\newblock Modeling car-following behavior on urban expressways in shanghai: A
+  naturalistic driving study.
+\newblock \emph{Transportation research part C: emerging technologies},
+  93:\penalty0 425--445, 2018.
+
+\end{thebibliography}
