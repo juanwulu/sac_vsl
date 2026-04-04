@@ -1,0 +1,37 @@
+# build options
+build -c opt
+
+## environment variables
+build --action_env=CUDA_HOME
+build --action_env=LD_LIBRARY_PATH
+build --action_env=NCCL_P2P_DISABLE
+build --action_env=GOOGLE_APPLICATION_CREDENTIALS
+build --action_env=HF_HOME
+build --action_env=HF_TOKEN
+build --action_env=DATA_DIR
+build --action_env=CURL_CA_BUNDLE
+build --action_env=SSL_CERT_FILE
+build --action_env=TFDS_DATA_DIR
+build --action_env=XLA_PYTHON_CLIENT_MEM_FRACTION
+
+## default platforms
+build --define ml_platform=cpu
+build --experimental_convenience_symlinks=ignore
+
+## custom configurations
+build:cpu --define ml_platform=cpu
+build:cpu --copt=-march=native
+build:cpu --cxxopt=-D_GLIBCXX_USE_CXX11_ABI=0
+build:cpu --define=framework_shared_object=true
+build:cuda --define ml_platform=cuda
+build:mps --define ml_platform=mps
+build:tpu --define ml_platform=tpu
+
+# common options
+common --enable_bzlmod
+
+# startup options
+startup --output_user_root=/var/tmp/bazel-build
+
+# test options
+test --test_output=all
