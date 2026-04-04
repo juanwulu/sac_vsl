@@ -30,15 +30,7 @@ python.defaults(
 )
 python.toolchain(
     configure_coverage_tool = True,
-    python_version = "3.9",
-)
-python.toolchain(
-    configure_coverage_tool = True,
     python_version = "3.10",
-)
-python.toolchain(
-    configure_coverage_tool = True,
-    python_version = "3.11",
 )
 use_repo(
     python,
