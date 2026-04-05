@@ -22,7 +22,7 @@ A script is provide for running our codes on different penetration rate settings
 ```bash
 mkdir logs/ & bash sac_vsl/scripts/train_sac_multi_pr.sh
 ```
-    
+
 ## Citation
 
 If you use this source code, please cite it using bibtex as below.

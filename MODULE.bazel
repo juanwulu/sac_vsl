@@ -1,0 +1,75 @@
+"""Bazel module definition for the project."""
+
+module(
+    name = "sac_vsl",
+    version = "0.1.0",
+    compatibility_level = 1,
+)
+
+# load external dependencies
+bazel_dep(name = "bazel_skylib", version = "1.8.2")
+bazel_dep(name = "rules_cc", version = "0.2.9")
+bazel_dep(name = "rules_dotnet", version = "0.19.2")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "rules_python", version = "1.7.0")
+bazel_dep(name = "rules_uv", version = "0.89.2")
+
+# support for c-sharp development through microsoft dotnet
+register_toolchains("@dotnet_toolchains//:all")
+
+dotnet = use_extension("@rules_dotnet//dotnet:extensions.bzl", "dotnet")
+dotnet.toolchain(dotnet_version = "8.0.200")
+use_repo(dotnet, "dotnet_toolchains")
+
+# support for python development through `rules_python`
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.defaults(
+    # The environment variable takes precedence if set.
+    python_version = "3.10",
+    python_version_env = "BAZEL_PYTHON_VERSION",
+)
+python.toolchain(
+    configure_coverage_tool = True,
+    python_version = "3.10",
+)
+use_repo(
+    python,
+    "pythons_hub",
+    python = "python_versions",
+)
+
+## adds set of pip repository
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    extra_pip_args = [
+        "--default-timeout=1000",
+        "--retries=10",
+    ],
+    hub_name = "py_3_10_cpu",
+    python_version = "3.10",
+    requirements_lock = "//third_party:requirements_3_10_cpu.txt",
+)
+pip.parse(
+    extra_pip_args = [
+        "--default-timeout=1000",
+        "--retries=10",
+    ],
+    hub_name = "py_3_10_cuda",
+    python_version = "3.10",
+    requirements_lock = "//third_party:requirements_3_10_cuda.txt",
+)
+pip.parse(
+    extra_pip_args = [
+        "--default-timeout=1000",
+        "--retries=10",
+    ],
+    hub_name = "py_3_10_tpu",
+    python_version = "3.10",
+    requirements_lock = "//third_party:requirements_3_10_tpu.txt",
+)
+use_repo(
+    pip,
+    py_3_10_cpu = "py_3_10_cpu",
+    py_3_10_cuda = "py_3_10_cuda",
+    py_3_10_tpu = "py_3_10_tpu",
+)
