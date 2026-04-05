@@ -67,19 +67,9 @@ pip.parse(
     python_version = "3.10",
     requirements_lock = "//third_party:requirements_3_10_tpu.txt",
 )
-pip.parse(
-    extra_pip_args = [
-        "--default-timeout=1000",
-        "--retries=10",
-    ],
-    hub_name = "py_3_10_mps",
-    python_version = "3.10",
-    requirements_lock = "//third_party:requirements_3_10_mps.txt",
-)
 use_repo(
     pip,
     py_3_10_cpu = "py_3_10_cpu",
     py_3_10_cuda = "py_3_10_cuda",
-    py_3_10_mps = "py_3_10_mps",
     py_3_10_tpu = "py_3_10_tpu",
 )

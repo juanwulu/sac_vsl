@@ -18,15 +18,6 @@ config_setting(
     define_values = {"ml_platform": "tpu"},
 )
 
-config_setting(
-    name = "is_mps",
-    constraint_values = [
-        "@platforms//os:macos",
-        "@platforms//cpu:aarch64",
-    ],
-    define_values = {"ml_platform": "mps"},
-)
-
 pip_compile(
     name = "requirements_cpu",
     args = [
@@ -56,15 +47,4 @@ pip_compile(
     ],
     requirements_in = "requirements.in",
     requirements_txt = "requirements_3_10_tpu.txt",
-)
-
-pip_compile(
-    name = "requirements_mps",
-    args = [
-        "--generate-hashes",
-        "--emit-find-links",
-    ],
-    python_platform = "aarch64-apple-darwin",
-    requirements_in = "requirements.in",
-    requirements_txt = "requirements_3_10_mps.txt",
 )
