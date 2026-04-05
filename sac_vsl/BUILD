@@ -6,7 +6,20 @@ ml_py_binary(
     name = "train_sac",
     srcs = ["scripts/train_sac.py"],
     deps = [
+        # ray[rllib] extras (not auto-resolved by rules_python)
+        "dm-tree",
+        "lz4",
+        "matplotlib",
+        "pandas",
+        "scikit-image",
+        "scipy",
+        "tabulate",
+        "tensorboardx",
+        # direct deps
+        "gputil",
         "ray",
+        "six",
+        "tensorboard",
         "torch",
         ":env",
     ],

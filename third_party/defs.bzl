@@ -17,8 +17,8 @@ def _select_requirement(name):
     """
     return select({
         "//third_party:is_cuda": [cuda_req(name)],
-        "//third_party:is_tpu": [tpu_req(name)],
         "//third_party:is_mps": [mps_req(name)],
+        "//third_party:is_tpu": [tpu_req(name)],
         "//conditions:default": [cpu_req(name)],
     })
 
