@@ -77,20 +77,20 @@ pdfkeywords={First keyword, Second keyword, More},
 \begin{titlepage}
     \begin{center}
         \vspace*{2cm}
-            
+
         \Huge
         \textbf{Reinforcement Learning for Freeway Variable Speed Limit Control}
-            
+
         \vspace{0.5cm}
         \LARGE
         A Mixed Traffic Flow Case Study
-            
+
         \vspace{1.5cm}
-            
+
         \textbf{Juanwu Lu} \\
         Advisor: Maria Laura Delle Monache
-        
-            
+
+
         \vfill
 
         \large
@@ -100,7 +100,7 @@ pdfkeywords={First keyword, Second keyword, More},
         \vspace{0.8cm}
 
         \includegraphics[width=0.6\textwidth]{img/logo.png}
-        
+
         \Large
         Department of Civil and Environmental Engineering\\
         University of California, Berkeley \\
@@ -149,7 +149,7 @@ The classic reinforcement learning method formulates the decision problem as a M
 Therefore, we instead formulate the VSL problem as a partially observable Markov Decision Process (POMDP), defined by a six-tuple $\left(\mathcal{O}, \mathcal{S}, \mathcal{A}, f, p, r\right)$, where an additional observation space $\mathcal{O}$ consists of observations of the current traffic flow that might not satisfy the Markov Property, and an additional function $f:\mathcal{O}\rightarrow\mathcal{S}$ is used to describe the dependence between observations and latent states. Figure 1 illustrates the POMDP formulation.
 \begin{figure}[htbp]
 	\centering
-	\[\begin{picture}(100, 90) 
+	\[\begin{picture}(100, 90)
 		% Base state chain
 		\put(-50, 40){\vector(1, 0){20}}
 		\put(-20, 40){\makebox(0, 0)[c]{$s_t$}}
@@ -320,7 +320,7 @@ For evaluation, this study focuses on improving efficiency by comparing the trav
 \centering
 \begin{tabular}{@{}cccccccc@{}}
 \toprule
-\multirow{2}{*}{\textbf{CAV PR}} & \multirow{2}{*}{\textbf{Strategy}} & \multicolumn{3}{c}{\textbf{Results}}                                                     & \multicolumn{3}{c}{\textbf{Improvement}}                                                 \\ \cmidrule(l){3-8} 
+\multirow{2}{*}{\textbf{CAV PR}} & \multirow{2}{*}{\textbf{Strategy}} & \multicolumn{3}{c}{\textbf{Results}}                                                     & \multicolumn{3}{c}{\textbf{Improvement}}                                                 \\ \cmidrule(l){3-8}
                                                &                                            & \textbf{Max $TT$ (s)} & \textbf{Mean $TT$ (s)} & \textbf{Mean $v$ (mph)} & \textbf{Max $TT$ (s)} & \textbf{Mean $TT$ (s)} & \textbf{Mean $v$ (mph)} \\ \midrule
 \multirow{2}{*}{\textbf{0\%}}                  & No VSL                                     & 31.193                       & 24.757                        & 18.254                    & -                            & -                             & -                         \\
                                                & SAC                                        & 25.348                       & 12.659                        & 37.659                    & 18.74\%                      & 48.87\%                       & 106.31\%                  \\
