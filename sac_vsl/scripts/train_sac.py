@@ -18,6 +18,9 @@ import torch as th
 
 from sac_vsl.env import CAVI80VSLEnv
 
+# Configuration
+os.environ["PYTHONPATH"] = ":".join(sys.path)
+
 # Global Variable
 LOG_DIR = Path(os.path.abspath(__file__)).parents[2].joinpath("run_logs")
 
@@ -126,10 +129,10 @@ def main() -> None:
                 ],
             )
         )
-        ray.init(num_gpus=num_gpus)
+        ray.init(num_gpus=num_gpus, include_dashboard=False)
     else:
         num_gpus: int = 0
-        ray.init()
+        ray.init(include_dashboard=False)
 
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)

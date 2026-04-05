@@ -28,6 +28,7 @@ ml_py_binary(
 ml_py_library(
     name = "env",
     srcs = ["env.py"],
+    data = glob(["assets/**"]),
     deps = [
         "gym",
         "numpy",
