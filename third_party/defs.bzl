@@ -2,6 +2,7 @@
 
 load("@py_3_10_cpu//:requirements.bzl", cpu_req = "requirement")
 load("@py_3_10_cuda//:requirements.bzl", cuda_req = "requirement")
+load("@py_3_10_mps//:requirements.bzl", mps_req = "requirement")
 load("@py_3_10_tpu//:requirements.bzl", tpu_req = "requirement")
 load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
 
@@ -15,9 +16,10 @@ def _select_requirement(name):
         A platform-specific requirement for the given name.
     """
     return select({
-        "//third_party:is_cpu": [cpu_req(name)],
         "//third_party:is_cuda": [cuda_req(name)],
         "//third_party:is_tpu": [tpu_req(name)],
+        "//third_party:is_mps": [mps_req(name)],
+        "//conditions:default": [cpu_req(name)],
     })
 
 def all_requirements(names = []):
