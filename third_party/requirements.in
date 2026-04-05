@@ -5,6 +5,7 @@ numpy==1.22.0
 scipy==1.9.3
 tensorboard==2.10.1
 tensorboardX==2.5.1
+torch==1.13.1
 ray==2.1.0
 ray[rllib]
 ray[tune]
