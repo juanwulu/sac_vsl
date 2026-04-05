@@ -7,7 +7,7 @@ _load_env_plugins()
 # =========================================
 
 register(
-    id='CAVI80VSL_v0',
+    id="CAVI80VSL_v0",
     entry_point="env.CAVI80VSLEnv",
     max_episode_steps=600,
 )

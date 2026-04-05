@@ -3,12 +3,15 @@
 # @author Juanwu Lu
 # @date   Nov-11-22
 # =============================================================================
-"""Type variable collection"""
+"""Type variable collection."""
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, TypeVar, Union
+import typing
 
-Cfg = TypeVar('Cfg', bound=Dict[str, Any])
-Log = TypeVar('Log', bound=Dict[str, Any])
-PathLike = TypeVar('PathLike', bound=Union[str, 'os.PathLike[str]'])
+Cfg = typing.TypeVar("Cfg", bound=typing.Dict[str, typing.Any])
+Log = typing.TypeVar("Log", bound=typing.Dict[str, typing.Any])
+PathLike = typing.TypeVar(
+    "PathLike",
+    bound=typing.Union[str, "os.PathLike[str]"],
+)

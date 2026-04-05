@@ -5,14 +5,14 @@
 # =============================================================================
 from __future__ import annotations
 
-import warnings
-
 
 class UndeclaredModule(Exception):
-    """Raised when try to import missing package"""
+    """Raised when try to import missing package."""
+
     pass
 
 
 class UnregisteredEnv(Exception):
     """Raised when try to initialize unregistered environment."""
+
     pass
