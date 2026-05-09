@@ -166,8 +166,10 @@ class CAVI80VSLEnv(gym_core.Env):
         *,
         seed: int | None = None,
         options: dict | None = None,
+        **kwargs,
     ) -> np.ndarray:
-        super().reset(seed=seed, options=options)
+        del kwargs
+        super().reset(seed=seed, options=options, return_info=False)
 
         if seed is not None:
             sumo_cmd = [
@@ -325,9 +327,13 @@ class CAVI80VSLEnv(gym_core.Env):
         # )
 
         # Efficiency: Maximize the approximate throughput flow
-        tt_reward = -traci.multientryexit.getLastIntervalMeanTravelTime(
-            "weaving_e3"
+        raw_tt = float(
+            traci.multientryexit.getLastIntervalMeanTravelTime("weaving_e3")
         )
+        if raw_tt < 0.0:
+            raw_tt = 100.0  # NOTE:  a large penalty for no vehicle exiting
+        tt_reward = -raw_tt
+
         # speed_reward = np.mean([
         #     np.quantile([
         #         traci.lane.getLastStepMeanSpeed(lane.getID()) /
