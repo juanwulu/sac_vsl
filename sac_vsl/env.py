@@ -165,10 +165,11 @@ class CAVI80VSLEnv(gym_core.Env):
         self,
         *,
         seed: int | None = None,
-        return_info: bool = False,
         options: dict | None = None,
+        **kwargs,
     ) -> np.ndarray:
-        super().reset(seed=seed, return_info=return_info, options=options)
+        del kwargs
+        super().reset(seed=seed, options=options, return_info=False)
 
         if seed is not None:
             sumo_cmd = [
@@ -326,10 +327,9 @@ class CAVI80VSLEnv(gym_core.Env):
         # )
 
         # Efficiency: Maximize the approximate throughput flow
-        raw_tt = traci.multientryexit.getLastIntervalMeanTravelTime(
-            "weaving_e3"
+        raw_tt = float(
+            traci.multientryexit.getLastIntervalMeanTravelTime("weaving_e3")
         )
-        assert isinstance(raw_tt, float), f"Invalid travel time {raw_tt}."
         if raw_tt < 0.0:
             raw_tt = 100.0  # NOTE:  a large penalty for no vehicle exiting
         tt_reward = -raw_tt
